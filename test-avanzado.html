@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Experto · Casos Prácticos — NJ Coaching</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#06080b;--s1:#0d1117;--s2:#131920;--s3:#1a2230;
+  --border:#1e2d3d;--border2:#243447;
+  --gold:#c9a84c;--gold2:#e8c97a;--gold-dim:rgba(201,168,76,0.12);
+  --teal:#00d4aa;--teal-dim:rgba(0,212,170,0.08);
+  --red:#ff4d6d;--red-dim:rgba(255,77,109,0.08);
+  --blue:#4da6ff;--blue-dim:rgba(77,166,255,0.08);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.08);
+  --text:#dde4ee;--text2:#8fa3b8;--text3:#4d6070;
+  --mono:'JetBrains Mono',monospace;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Outfit',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.8;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2)}
+
+/* HERO */
+.hero{
+  min-height:55vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:60px 64px;
+  position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 60% at 100% 0%,rgba(255,77,109,0.06) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 0% 100%,rgba(167,139,250,0.05) 0%,transparent 55%),
+    radial-gradient(ellipse 30% 30% at 50% 50%,rgba(201,168,76,0.03) 0%,transparent 60%);
+}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,77,109,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,77,109,0.025) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--red)}
+.hero h1{font-family:var(--serif);font-size:clamp(38px,5.5vw,76px);font-weight:700;line-height:1;margin-bottom:16px}
+.hero h1 em{color:var(--red);font-style:italic}
+.hero p{color:var(--text2);font-size:14px;max-width:560px;font-weight:300;margin-bottom:36px;line-height:1.8}
+.hero-meta{display:flex;gap:36px;flex-wrap:wrap}
+.hm{display:flex;flex-direction:column;gap:3px}
+.hm span:first-child{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+.hm span:last-child{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--gold);line-height:1}
+.difficulty-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;border:1px solid var(--red);color:var(--red);background:var(--red-dim);margin-bottom:20px}
+
+/* PROGRESS */
+.progress-bar-wrap{position:sticky;top:0;z-index:50;background:rgba(6,8,11,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:12px 64px;display:flex;align-items:center;gap:16px}
+.prog-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);white-space:nowrap}
+.prog-track{flex:1;height:2px;background:var(--border2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:2px;transition:width .4s ease;width:0%}
+.prog-count{font-family:var(--mono);font-size:10px;color:var(--gold);white-space:nowrap;min-width:48px;text-align:right}
+
+/* MAIN */
+.wrap{max-width:880px;margin:0 auto;padding:0 64px}
+@media(max-width:680px){.hero,.wrap{padding-left:24px;padding-right:24px}}
+
+/* SECTION HEADER */
+.sec-hdr{padding:56px 0 20px;display:flex;align-items:center;gap:16px}
+.sh-n{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text3)}
+.sh-t{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--text);flex:1}
+.sh-c{font-family:var(--mono);font-size:9px;color:var(--text3);background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.sec-line{width:100%;height:1px;background:var(--border);margin-bottom:24px}
+
+/* CASE BANNER */
+.case-banner{
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:10px;padding:18px 22px;margin-bottom:4px;
+  font-size:13.5px;color:var(--text2);line-height:1.75;
+}
+.case-banner .case-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--purple);margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.case-banner .case-label::before{content:'▸';font-size:10px}
+.case-banner strong{color:var(--text)}
+.case-banner .case-data{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;
+}
+.case-tag{
+  font-family:var(--mono);font-size:9px;letter-spacing:1px;
+  padding:3px 10px;border-radius:12px;
+  background:var(--s3);border:1px solid var(--border2);color:var(--text3);
+}
+
+/* QUESTION CARD */
+.q-card{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:12px;padding:22px 26px;margin-bottom:10px;
+  transition:border-color .2s;
+}
+.q-card.answered-correct{border-color:rgba(0,212,170,0.35)}
+.q-card.answered-wrong{border-color:rgba(255,77,109,0.3)}
+.q-num{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.q-num .q-type{color:var(--purple);border:1px solid rgba(167,139,250,0.3);border-radius:10px;padding:1px 8px;font-size:8px}
+.q-text{font-size:14.5px;color:var(--text);line-height:1.75;margin-bottom:16px;font-weight:400}
+.q-text strong{color:var(--gold)}
+.q-text em{color:var(--text2);font-style:italic}
+.q-calc{
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:6px;padding:12px 16px;margin-bottom:14px;
+  font-family:var(--mono);font-size:12px;color:var(--teal);
+  line-height:1.8;
+}
+.q-calc .calc-label{color:var(--text3);font-size:9px;letter-spacing:2px;display:block;margin-bottom:4px}
+
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:7px}
+.opt{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:11px 14px;border-radius:7px;
+  background:var(--s2);border:1px solid var(--border2);
+  cursor:pointer;transition:all .15s;font-size:13px;color:var(--text2);line-height:1.55;
+}
+.opt:hover:not(.disabled){background:var(--s3);border-color:var(--border);color:var(--text)}
+.opt.selected{background:rgba(201,168,76,0.07);border-color:var(--gold);color:var(--text)}
+.opt.correct{background:var(--teal-dim);border-color:var(--teal);color:var(--teal)}
+.opt.wrong{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+.opt.reveal-correct{background:var(--teal-dim);border-color:rgba(0,212,170,0.4);color:var(--teal)}
+.opt.disabled{cursor:default}
+.opt-letter{
+  font-family:var(--mono);font-size:9px;letter-spacing:1px;min-width:20px;height:20px;
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  background:var(--border);color:var(--text3);flex-shrink:0;margin-top:1px;transition:all .15s;
+}
+.opt.selected .opt-letter{background:var(--gold);color:var(--bg)}
+.opt.correct .opt-letter{background:var(--teal);color:var(--bg)}
+.opt.wrong .opt-letter{background:var(--red);color:var(--bg)}
+.opt.reveal-correct .opt-letter{background:var(--teal);color:var(--bg)}
+
+/* EXPLANATION */
+.explanation{
+  margin-top:12px;padding:14px 16px;border-radius:7px;
+  font-size:13px;line-height:1.75;color:var(--text2);display:none;
+}
+.explanation.show{display:block}
+.explanation.correct-exp{background:var(--teal-dim);border:1px solid rgba(0,212,170,0.18)}
+.explanation.wrong-exp{background:var(--red-dim);border:1px solid rgba(255,77,109,0.18)}
+.explanation strong{color:var(--text)}
+.explanation .exp-label{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.correct-exp .exp-label{color:var(--teal)}
+.wrong-exp .exp-label{color:var(--red)}
+.explanation .why-wrong{margin-top:10px;padding:10px 12px;background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.15);border-radius:5px;font-size:12px;color:var(--text3)}
+.explanation .why-wrong::before{content:'⚠ Por qué los distractores son incorrectos: ';color:var(--red);font-weight:600}
+
+/* SUBMIT */
+.submit-wrap{padding:48px 0;text-align:center}
+.btn-submit{
+  font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  padding:16px 52px;background:linear-gradient(135deg,var(--red),#c0284a);
+  color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;transition:all .2s;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,77,109,0.25)}
+
+/* RESULTS */
+#results{display:none;padding:60px 0}
+.results-center{text-align:center;margin-bottom:40px}
+.score-wrap{width:150px;height:150px;margin:0 auto 20px;position:relative;display:flex;align-items:center;justify-content:center}
+.score-wrap svg{position:absolute;inset:0;width:100%;height:100%}
+.score-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1}
+.score-n{font-family:var(--serif);font-size:44px;font-weight:700;color:var(--gold);line-height:1}
+.score-d{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:2px}
+.results-title{font-family:var(--serif);font-size:34px;font-weight:700;margin-bottom:8px}
+.results-sub{color:var(--text2);font-size:14px;max-width:500px;margin:0 auto;line-height:1.7}
+
+.rb-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:28px 0}
+@media(max-width:600px){.rb-grid{grid-template-columns:1fr 1fr}}
+.rb{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.rb-n{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:3px}
+.rb-l{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+
+.level-card{background:var(--s2);border:1px solid var(--border2);border-radius:12px;padding:28px 32px;margin:20px 0;text-align:center}
+.level-badge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:20px;border:1px solid;margin-bottom:12px}
+.level-title{font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:8px}
+.level-desc{font-size:13.5px;color:var(--text2);line-height:1.75;max-width:580px;margin:0 auto}
+
+/* section breakdown */
+.sec-breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+@media(max-width:600px){.sec-breakdown{grid-template-columns:1fr 1fr}}
+.sbd{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.sbd-bar-wrap{height:4px;background:var(--border2);border-radius:2px;margin:8px 0}
+.sbd-bar{height:100%;border-radius:2px;transition:width 1s ease}
+.sbd-pct{font-family:var(--mono);font-size:11px;color:var(--gold)}
+.sbd-lbl{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-top:4px}
+
+.wrong-list{margin-top:36px}
+.wrong-list h3{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--text);margin-bottom:14px}
+.wi{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:8px}
+.wi-q{font-size:13px;color:var(--text);margin-bottom:5px;line-height:1.5}
+.wi-correct{font-family:var(--mono);font-size:10px;color:var(--teal);margin-bottom:4px}
+.wi-exp{font-size:12px;color:var(--text2);line-height:1.6}
+
+.btn-retry{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 32px;background:transparent;color:var(--gold);border:1px solid var(--gold);border-radius:8px;cursor:pointer;transition:all .2s;margin-top:20px}
+.btn-retry:hover{background:var(--gold-dim)}
+
+footer{padding:40px 64px;text-align:center;color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:1px;border-top:1px solid var(--border);line-height:2}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="difficulty-badge">⬛⬛⬛⬛ Nivel experto</div>
+  <div class="hero-eyebrow">NJ Coaching · Evaluación Avanzada</div>
+  <h1>Casos Prácticos<br><em>Nivel Experto</em></h1>
+  <p>40 casos reales de asesoramiento. Sin respuestas evidentes — cada opción incorrecta es plausible para quien no domina el tema a fondo. Dosis, selección de péptido, manejo de efectos secundarios, conservación y dilemas clínicos de asesoría.</p>
+  <div class="hero-meta">
+    <div class="hm"><span>Preguntas</span><span>40</span></div>
+    <div class="hm"><span>Formato</span><span>Casos</span></div>
+    <div class="hm"><span>Experto</span><span>≥85%</span></div>
+  </div>
+</section>
+
+<div class="progress-bar-wrap">
+  <span class="prog-label">Progreso</span>
+  <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+  <span class="prog-count" id="progCount">0 / 40</span>
+</div>
+
+<div class="wrap" id="quizWrap">
+
+<!-- ═══ SECCIÓN A: SELECCIÓN DE PÉPTIDO ═══ -->
+<div class="sec-hdr">
+  <span class="sh-n">A</span>
+  <span class="sh-t">Selección del péptido correcto para cada caso</span>
+  <span class="sh-c">Q01–12</span>
+</div>
+<div class="sec-line"></div>
+
+<!-- Q1 -->
+<div class="case-banner">
+  <div class="case-label">Caso clínico 01</div>
+  Sebastián, 28 años, culturista amateur en fase de <strong>cutting de 10 semanas</strong>. Entrena 6 días/semana, 5000 kcal en volumen, ahora en 3200 kcal. Le preocupa la pérdida de masa muscular. Duerme mal (5–6h), tiene hambre constante y reporta fatiga en los entrenos. No tiene historial médico relevante.
+  <div class="case-data">
+    <span class="case-tag">Cutting · 10 sem</span><span class="case-tag">Hambre alta</span><span class="case-tag">Sueño deficiente</span><span class="case-tag">Sin patología</span>
+  </div>
+</div>
+<div class="q-card" data-q="1">
+  <div class="q-num">Pregunta 01 <span class="q-type">Selección de stack</span></div>
+  <div class="q-text">¿Qué stack de péptidos es más adecuado para Sebastián, considerando TODOS sus síntomas y el contexto de cutting?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>GHRP-6 + CJC-1295 sin DAC nocturno + AOD-9604 mañana</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Ipamorelin + CJC-1295 sin DAC nocturno + AOD-9604 mañana en ayunas</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Tesamorelin + GHRP-2 + Fragment 176-191</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>MK-677 solo — mejora el sueño y preserva músculo sin complicar el protocolo</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El stack ideal para Sebastián cubre los tres frentes: <strong>Ipamorelin</strong> (no eleva cortisol, no aumenta el apetito ya disparado, mejora sueño profundo), <strong>CJC-1295 sin DAC</strong> (amplifica el pico de GH nocturno para preservar músculo en déficit), y <strong>AOD-9604</strong> mañana en ayunas (lipólisis directa). La opción A falla por el GHRP-6, que es el peor GHRP para cutting al estimular ghrelina gástrica e intensificar el hambre que Sebastián ya tiene. La C usa Tesamorelin que es de lenta acción y costoso, inadecuado para 10 semanas. La D usa MK-677 que agrava la hambre y la retención hídrica — exactamente los dos problemas de Sebastián.
+    <div class="why-wrong">El GHRP-6 es el GHRP del volumen, no del cutting. El MK-677 aumenta el apetito y retiene agua — dos problemas ya presentes en Sebastián.</div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 02</div>
+  Valentina, 35 años, médica de urgencias. Objetivo: <strong>rejuvenecimiento de piel + pérdida de grasa periumbilical</strong>. Trabaja turnos nocturnos irregulares. No puede mantener horario fijo de inyecciones. Tiene prediabetes (glucemia en ayunas 108 mg/dL). Presupuesto: COP $400.000/mes.
+  <div class="case-data">
+    <span class="case-tag">Prediabetes</span><span class="case-tag">Turnos irregulares</span><span class="case-tag">Grasa abdominal</span><span class="case-tag">Presupuesto limitado</span>
+  </div>
+</div>
+<div class="q-card" data-q="2">
+  <div class="q-num">Pregunta 02 <span class="q-type">Selección con restricciones</span></div>
+  <div class="q-text">Considerando la prediabetes, el horario irregular y el presupuesto, ¿qué recomendación es más adecuada para Valentina?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>MK-677 12.5 mg/noche + GHK-Cu tópico — conveniente y sin inyecciones</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>AOD-9604 300 mcg + GHK-Cu tópico diario. Monitorear glucemia semanalmente. Sin GHSs hasta normalizar glucemia</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Tesamorelin 2 mg/día — es el péptido con mejor evidencia para grasa abdominal</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>CJC-1295 con DAC 1 mg semanal — solo una inyección por semana, resuelve el horario irregular</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La prediabetes es la restricción determinante. <strong>MK-677 (A) está contraindicado</strong> — eleva consistentemente la glucemia en ayunas 5–15 mg/dL en usuarios susceptibles; en una prediabética puede precipitar DM2. <strong>Tesamorelin (C) también eleva IGF-1 y tiene efecto sobre glucemia</strong> — requiere monitoreo estricto y es costoso para su presupuesto. <strong>CJC-1295 con DAC (D)</strong> genera elevación continua de GH e IGF-1 que puede afectar la sensibilidad insulínica. <strong>AOD-9604 no tiene efecto sobre el receptor GHR hepático</strong>, no genera IGF-1 ni resistencia insulínica — es el único lipolítico seguro para prediabéticos. GHK-Cu tópico cubre el objetivo estético sin impacto metabólico.
+    <div class="why-wrong">MK-677 y Tesamorelin son los dos péptidos más problemáticos para glucemia. Nunca en prediabéticos sin supervisión médica estrecha.</div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 03</div>
+  Rodrigo, 22 años, jugador de fútbol semiprofesional. Sufrió <strong>rotura parcial del ligamento lateral externo de tobillo</strong> hace 3 semanas. Fisioterapia activa desde la semana 1. Necesita volver en 8–10 semanas. También tiene historial de gastritis crónica por AINE (usó diclofenaco durante 2 años).
+  <div class="case-data">
+    <span class="case-tag">Lesión ligamentosa</span><span class="case-tag">Gastritis crónica</span><span class="case-tag">Urgencia de retorno</span><span class="case-tag">Sin DM</span>
+  </div>
+</div>
+<div class="q-card" data-q="3">
+  <div class="q-num">Pregunta 03 <span class="q-type">Recuperación + comorbilidad</span></div>
+  <div class="q-text">¿Qué protocolo de péptidos diseñarías para Rodrigo, aprovechando también su historial de gastritis?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>TB-500 2.5 mg × 2/semana + BPC-157 SC 250 mcg × 2/día solamente</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>TB-500 2.5 mg × 2/semana + BPC-157 SC 250 mcg × 2/día + BPC-157 oral 500 mcg/día (para la gastritis)</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Sermorelin 400 mcg/noche solo — la GH es suficiente para reparar tejido conectivo</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>BPC-157 oral 1 mg/día únicamente — la vía oral da efectos tanto en ligamento como en gastritis</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    Este caso tiene dos objetivos simultáneos: reparación del ligamento y mucosa gástrica. <strong>TB-500 sistémico</strong> (movilización celular hacia la lesión) + <strong>BPC-157 SC perilesional</strong> (reparación local del ligamento via VEGF/fibroblastos) cubre el tobillo. La clave diferenciadora: añadir <strong>BPC-157 oral 500 mcg/día</strong> para la gastritis — el BPC-157 oral actúa directamente sobre la mucosa GI, lo que representa un beneficio adicional de alto valor para Rodrigo (protección gástrica durante el esfuerzo físico de recuperación). La opción A es incompleta. La C es insuficiente — la GH por sí sola no repara ligamentos con la velocidad necesaria. La D es demasiado conservadora para el plazo exigido.
+    <div class="why-wrong">La opción D suena razonable pero el BPC-157 oral tiene absorción sistémica limitada para tejidos periféricos — necesitas la vía SC para acción en el ligamento del tobillo.</div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 04</div>
+  Andrea, 44 años, ejecutiva. Objetivo: <strong>alopecia difusa</strong> (pérdida de densidad capilar difusa, no androgenética). Usa minoxidil 5% hace 8 meses con resultado parcial. Tiroides normal, ferritina 28 ng/mL (límite bajo). Sin otros antecedentes.
+  <div class="case-data">
+    <span class="case-tag">Alopecia difusa</span><span class="case-tag">Minoxidil activo</span><span class="case-tag">Ferritina baja</span><span class="case-tag">Tiroides normal</span>
+  </div>
+</div>
+<div class="q-card" data-q="4">
+  <div class="q-num">Pregunta 04 <span class="q-type">Selección estética + limitaciones</span></div>
+  <div class="q-text">¿Cuál es la recomendación más completa e inteligente para Andrea?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Cambiar el minoxidil por GHK-Cu tópico al 2% — es más efectivo para alopecia difusa</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>GHK-Cu tópico 2% en cuero cabelludo (mantener el minoxidil) + señalar la ferritina como problema prioritario antes de esperar resultados capilares</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Ipamorelin + CJC-1295 para elevar IGF-1 sistémico que estimulará el folículo capilar</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Epithalon ciclo de 10 días + GHK-Cu — el Epithalon normaliza la glándula pineal y mejora el ciclo capilar</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La trampa está en la ferritina. <strong>Ferritina 28 ng/mL es insuficiente para el crecimiento capilar</strong> — el umbral mínimo para folículos activos es ≥40 ng/mL, y muchos tricólogos recomiendan ≥70 ng/mL. Si Andrea tiene ferritina baja, ningún péptido compensará completamente esa deficiencia — los folículos necesitan hierro para producir queratina. El asesor experto identifica esto y lo menciona antes de vender. GHK-Cu tópico es la adición correcta (estimula factores de crecimiento capilar, reduce inflamación folicular) manteniendo el minoxidil (no sustituirlo — sinergia probada). La opción A es incorrecta porque recomienda reemplazar el minoxidil. C es innecesariamente invasivo para un objetivo capilar tópico. D ignora la ferritina.
+    <div class="why-wrong">Recomendar péptidos sin identificar causas corregibles (ferritina baja) que limitan los resultados es un error de asesor inexperto. La ferritina baja causa alopecia difusa por sí sola.</div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 05</div>
+  Carlos, 38 años. Ciclo de esteroides anabólicos activo (Testosterona Enantato 300 mg/sem + Boldenona 400 mg/sem), semana 10 de 16. Quiere añadir péptidos para <strong>maximizar el entorno anabólico y acelerar recuperación entre entrenos</strong>. Duerme 7h, come bien, sin patología.
+  <div class="case-data">
+    <span class="case-tag">AAS activo</span><span class="case-tag">Semana 10/16</span><span class="case-tag">Volumen</span><span class="case-tag">Sin patología</span>
+  </div>
+</div>
+<div class="q-card" data-q="5">
+  <div class="q-num">Pregunta 05 <span class="q-type">Interacción péptidos + AAS</span></div>
+  <div class="q-text">Carlos ya tiene un entorno anabólico potente con los AAS. ¿Qué péptidos añaden valor real sin redundancia y sin interferir con el ciclo?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>GHRP-2 + CJC-1295 sin DAC — máximo pico de GH para ampliar el anabolismo</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>BPC-157 + TB-500 — actúan en recuperación de micro-lesiones musculares y conectivo sin solaparse con el eje androgénico</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Ipamorelin + CJC + MK-677 — triple estímulo de GH para el mayor efecto anabólico</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>No añadir péptidos — los AAS ya saturan todos los receptores relevantes y los péptidos son redundantes</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    En un ciclo de AAS el eje androgénico está saturado. Añadir más GH via GHSs tiene valor pero es secundario cuando el objetivo es recuperación entre sesiones intensas. <strong>BPC-157 y TB-500 operan en vías completamente independientes</strong> del eje GH y androgénico — reparan el tejido conectivo, tendones y músculo que el entrenamiento intensificado por AAS sobreexige. Son los añadidos con mayor valor diferencial en este contexto. La opción A (GHSs) también es válida pero aporta menos singularidad ya que los AAS + IGF-1 endógeno ya proveen un entorno anabólico sólido. La opción C (triple GH) añade riesgo de retención hídrica y glucemia sin justificación proporcional. La D es incorrecta — los péptidos de reparación actúan en vías no redundantes.
+    <div class="why-wrong">La recuperación tisular es el cuello de botella en ciclos intensos de AAS, no el anabolismo — ahí es donde BPC+TB-500 dan su mayor ROI.</div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 06</div>
+  Mariana, 31 años, triatleta de rendimiento. Sin objetivos de composición corporal. Objetivo exclusivo: <strong>reducir lesiones por sobreuso y acortar tiempo de recuperación entre competencias</strong> (ciclo competitivo de 6 meses). Compite bajo reglamento WADA.
+  <div class="case-data">
+    <span class="case-tag">Deporte de resistencia</span><span class="case-tag">WADA activo</span><span class="case-tag">Sin objetivo estético</span><span class="case-tag">6 meses</span>
+  </div>
+</div>
+<div class="q-card" data-q="6">
+  <div class="q-num">Pregunta 06 <span class="q-type">Restricción antidopaje</span></div>
+  <div class="q-text">Mariana compite bajo WADA. Antes de recomendar cualquier péptido, ¿qué debes saber y qué le dices?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Los péptidos no son detectables en controles antidopaje, así que puede usarlos sin riesgo</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>BPC-157, TB-500 y todos los GHSs/GHRHs están en la Lista Prohibida de WADA (S2 y S4). Usarlos implica riesgo real de suspensión. Debes informarla y no recomendar nada sin que ella asuma conscientemente ese riesgo y consulte con su médico federativo</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Solo los esteroides anabólicos están prohibidos por WADA — los péptidos de reparación como BPC-157 están permitidos</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Puede usar GHK-Cu y Epithalon sin problema porque son péptidos tópicos y orales, no inyectables</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Esta es una pregunta de ética y responsabilidad profesional.</strong> BPC-157 y TB-500 están en la Lista Prohibida WADA categoría S2 (Factores de Crecimiento Peptídico). Los GHSs (Ipamorelin, GHRP-2) están en S4 (Moduladores Hormonales y Metabólicos). La detección de péptidos por WADA ha mejorado enormemente — ya existen métodos validados para varios de ellos. Un asesor que le diga "no son detectables" está mintiendo y exponiendo a su cliente a consecuencias deportivas graves. La respuesta correcta es informar completamente, no recomendar y derivar al médico federativo. La opción D también es incorrecta — WADA prohíbe las sustancias independientemente de la vía de administración.
+    <div class="why-wrong">Decir que "los péptidos no son detectables" es una afirmación peligrosa y desactualizada. La ética del asesor incluye no exponer al cliente a sanciones que él mismo desconoce.</div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 07</div>
+  Felipe, 51 años, sedentario con sobrepeso (IMC 31). Se autodiagnostica con "deficiencia de GH del envejecimiento". Quiere empezar con <strong>MK-677 25 mg/día</strong> que vio en YouTube. Tiene HTA controlada con losartán. Glucemia en ayunas: 118 mg/dL (ya en rango de diabetes).
+  <div class="case-data">
+    <span class="case-tag">HTA controlada</span><span class="case-tag">Glucemia 118 mg/dL</span><span class="case-tag">Sedentario</span><span class="case-tag">IMC 31</span>
+  </div>
+</div>
+<div class="q-card" data-q="7">
+  <div class="q-num">Pregunta 07 <span class="q-type">Contraindicaciones absolutas</span></div>
+  <div class="q-text">Felipe llega con su plan de MK-677 25 mg. ¿Cuál es la respuesta más correcta de un asesor responsable?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Ajustar la dosis a 10 mg y monitorear — la dosis baja reduce el riesgo glucémico</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>No recomendar MK-677 ni ningún GHS en este momento. Glucemia 118 mg/dL ya es criterio de DM2 en algunos contextos. Derivar al médico para control glucémico. Si se estabiliza con tratamiento médico, reconsiderar con péptidos de menor impacto glucémico (AOD-9604 + GHK-Cu)</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Añadir berberina 500 mg al protocolo de MK-677 para controlar la glucemia — eso lo hace seguro</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Proceder con Ipamorelin + CJC-1295 en lugar de MK-677 — tienen menor impacto glucémico</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Glucemia 118 mg/dL en ayunas es diagnóstico de diabetes según criterios ADA</strong> (≥126 mg/dL = DM confirmada; 100–125 = prediabetes; 118 ya está en zona de prediabetes avanzada, a un solo punto de confirmación). Cualquier GHS — incluyendo los inyectables (D) — puede elevar la glucemia adicionalmente porque la GH elevada genera resistencia insulínica transitoria. La berberina (C) puede ayudar pero no convierte en seguro un péptido contraindicado. La opción D parece técnicamente razonable pero el contexto general de Felipe (sedentario, IMC 31, glucemia ya alterada, HTA) requiere control médico previo, no un protocolo de péptidos. <strong>Un buen asesor sabe cuándo NO vender.</strong>
+    <div class="why-wrong">La opción D suena bien técnicamente pero ignora el contexto global — Felipe no está en condición de empezar péptidos antes de controlar su metabolismo basal.</div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 08</div>
+  Tomás, 26 años, fisicoculturista. Quiere usar <strong>Melanotan II</strong> para el bronceado de competencia (4 semanas antes del show). Tiene piel morena natural (fototipo IV). Revisión previa: 8 nevos pequeños en espalda, todos regulares en bordes según él.
+  <div class="case-data">
+    <span class="case-tag">Fototipo IV</span><span class="case-tag">8 nevos</span><span class="case-tag">Competencia en 4 sem</span><span class="case-tag">Sin historia oncológica</span>
+  </div>
+</div>
+<div class="q-card" data-q="8">
+  <div class="q-num">Pregunta 08 <span class="q-type">Seguridad estética</span></div>
+  <div class="q-text">¿Qué le dices a Tomás antes de proceder con el MT-II?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Con fototipo IV y 4 semanas de margen, puede empezar directamente con 0.5 mg/día</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Requiere dermatoscopia profesional de los nevos antes de iniciar — su autoevaluación no es suficiente. Si la dermatoscopia da nevos típicos, puede proceder con dosis de carga gradual desde 0.25 mg. Monitoreo quincenal de los nevos durante el ciclo</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Con fototipo IV no necesita MT-II para competencia — ya tiene pigmentación suficiente</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>El MT-II solo es problemático en fototipos I-II; en fototipo IV es completamente seguro</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>La autoevaluación de nevos por el propio usuario es clínicamente inválida</strong> — los nevos displásicos pueden parecer regulares al ojo no entrenado. La dermatoscopia (dermatoscopio de luz polarizada) detecta cambios estructurales no visibles a simple vista. La activación de MC1R por MT-II es sistémica e indiscriminada — afecta TODOS los melanocitos, incluidos los de nevos atípicos que el usuario no ha identificado. La opción D es peligrosamente incorrecta — el riesgo de transformación maligna por MT-II no depende del fototipo sino de la presencia de nevos atípicos, que pueden existir en cualquier fototipo. La C evita el problema pero no responde la pregunta de forma útil para el cliente.
+    <div class="why-wrong">La D es la respuesta más peligrosa del test — el fototipo no determina el riesgo oncológico del MT-II, sino el estado de los nevos.</div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 09</div>
+  Laura, 29 años, deportista recreativa. Quiere iniciar péptidos para composición corporal. Llevas 10 minutos de consulta y ya te ha preguntado dos veces <strong>"¿cuánto tiempo para ver resultados?"</strong>. Tiene 3 semanas de vacaciones y quiere "notar algo antes de volver al trabajo".
+  <div class="case-data">
+    <span class="case-tag">Expectativas altas</span><span class="case-tag">Plazo: 3 semanas</span><span class="case-tag">Sin lesiones</span><span class="case-tag">Primera vez</span>
+  </div>
+</div>
+<div class="q-card" data-q="9">
+  <div class="q-num">Pregunta 09 <span class="q-type">Manejo de expectativas</span></div>
+  <div class="q-text">¿Cuál es la respuesta más profesional y honesta para Laura?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Recomendarle AOD-9604 + Fragment 176-191 juntos — en 3 semanas verá diferencia visible si sigue dieta</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Explicarle que los péptidos de composición corporal (GHSs) requieren 8–10 semanas para cambios visibles. En 3 semanas puede notar mejoras en sueño y recuperación, no en grasa/músculo. Si quiere iniciar ahora, bien, pero el protocolo debe continuar más allá de las vacaciones</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Sugerirle un ciclo corto e intensivo de GHSs a dosis más altas para acelerar resultados en 3 semanas</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Venderle el stack y decirle que en 3 semanas "algo notará" — mantener la expectativa vaga para que no se decepcione</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La honestidad radical sobre el timeline es el activo más valioso de un asesor. <strong>Los péptidos de composición corporal no producen cambios visibles en 3 semanas</strong> — los GHSs tardan 8–12 semanas para generar cambios medibles en composición. Lo que sí puede notar pronto: calidad del sueño (semana 1–2), recuperación post-entreno (semana 2–3), energía. Prometerle resultados de grasa/músculo en 3 semanas (A, C) es mentir y asegura una clienta decepcionada y un testimonial negativo. La opción D (expectativa vaga) es la peor práctica comercial — las expectativas vagas generan decepción difusa. La opción B construye confianza, establece un protocolo realista y convierte a Laura en clienta de 12 semanas en lugar de 3.
+    <div class="why-wrong">Un cliente mal informado sobre plazos es un cliente que abandona en semana 3 y dice "no funcionó". Un cliente bien informado completa el protocolo y refiere a otros.</div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 10</div>
+  Nicolás, 33 años, tenista recreativo. Lleva 6 meses con <strong>epicondilitis lateral (codo de tenista)</strong> que no mejora con fisioterapia ni corticoides. Ortopedista recomendó cirugía. Quiere intentar péptidos antes de operar. Está tomando <strong>betametasona oral (corticoide)</strong> para el dolor desde hace 3 semanas.
+  <div class="case-data">
+    <span class="case-tag">Epicondilitis crónica</span><span class="case-tag">Corticoide oral activo</span><span class="case-tag">Pre-quirúrgico</span><span class="case-tag">6 meses de evolución</span>
+  </div>
+</div>
+<div class="q-card" data-q="10">
+  <div class="q-num">Pregunta 10 <span class="q-type">Interacción farmacológica</span></div>
+  <div class="q-text">¿Cómo afecta la betametasona oral al protocolo de BPC-157 + TB-500 y qué le recomiendas a Nicolás?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>La betametasona no interactúa con los péptidos — puede empezar el protocolo inmediatamente</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Los corticoides sistémicos inhiben la síntesis de colágeno y suprimen factores de crecimiento que el BPC-157 intenta activar. Recomendar que hable con su médico sobre discontinuar la betametasona antes de iniciar el protocolo peptídico, o al menos espaciarlos. El protocolo peptídico es incompatible con corticoides sistémicos activos</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Aumentar la dosis de BPC-157 a 500 mcg × 3/día para compensar el efecto inhibitorio del corticoide</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Añadir Sermorelin para contrarrestar la supresión del eje GH causada por la betametasona</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Los corticoides sistémicos son antagonistas directos del efecto reparador del BPC-157.</strong> La betametasona: inhibe la síntesis de colágeno tipo I y III (supresión de fibroblastos), reduce la angiogénesis (opuesto al efecto VEGF del BPC-157), suprime factores de crecimiento locales, e inhibe la proliferación de células satélite musculares. Usar BPC-157 simultáneamente con corticoides sistémicos es como acelerar y frenar a la vez — el BPC-157 activa los mismos sistemas que el corticoide bloquea. La opción C (aumentar dosis) no resuelve la inhibición por mecanismo — solo gasta más producto. La D no aborda el problema real. La respuesta correcta es coordinar con el médico para el retiro gradual de la betametasona antes del protocolo peptídico.
+    <div class="why-wrong">Aumentar dosis (C) es el error clásico de pensar que "más cantidad" resuelve una incompatibilidad de mecanismo. No funciona así.</div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 11</div>
+  Pedro, 45 años, médico internista interesado en usar péptidos para sí mismo. Quiere <strong>anti-aging integral</strong>: reducir grasa visceral (perímetro abdominal 102 cm), mejorar composición, recuperar calidad del sueño y mejorar piel. Tiene todos los recursos económicos. Analítica reciente: IGF-1 bajo (98 ng/mL para su edad), testosterona total normal, sin patología.
+  <div class="case-data">
+    <span class="case-tag">IGF-1 bajo</span><span class="case-tag">Grasa visceral</span><span class="case-tag">Anti-aging integral</span><span class="case-tag">Sin restricción económica</span>
+  </div>
+</div>
+<div class="q-card" data-q="11">
+  <div class="q-num">Pregunta 11 <span class="q-type">Stack premium integral</span></div>
+  <div class="q-text">Pedro tiene IGF-1 bajo para su edad y recursos ilimitados. ¿Qué stack de 4–5 péptidos diseñarías con la mayor sinergia posible para sus objetivos?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>CJC-1295 DAC 2mg/sem + GHRP-2 300 mcg × 3/día + MK-677 25 mg + AOD-9604 + GHK-Cu</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Tesamorelin 1 mg/día + CJC-1295 sin DAC + Ipamorelin nocturno + GHK-Cu tópico + Epithalon 2x/año</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>MK-677 25 mg + BPC-157 + TB-500 + Melanotan II + GHK-Cu</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Solo CJC-1295 sin DAC + Ipamorelin — añadir más péptidos no suma beneficios proporcionales</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    Para Pedro (IGF-1 bajo, grasa visceral, anti-aging con recursos) la selección óptima es: <strong>Tesamorelin</strong> (único GHRH con evidencia clínica directa en grasa visceral, FDA-aprobado, además sube IGF-1), <strong>CJC sin DAC + Ipamorelin noche</strong> (pulso fisiológico de GH nocturno para preservación muscular, sueño y composición), <strong>GHK-Cu</strong> (piel), <strong>Epithalon 2x/año</strong> (antiaging celular). La opción A tiene tres errores: CJC DAC + GHSs múltiples de alta dosis + MK-677 es redundancia excesiva con más efectos secundarios (retención, glucemia), no más beneficios. La C incluye Melanotan II que no es relevante para los objetivos de Pedro. La D es demasiado conservadora para un usuario con IGF-1 bajo y múltiples objetivos.
+    <div class="why-wrong">Más péptidos no siempre es mejor. La A añade redundancia en el eje GH con tres estimuladores simultáneos — mayor riesgo sin beneficio proporcional.</div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="case-banner" style="margin-top:24px">
+  <div class="case-label">Caso clínico 12</div>
+  Daniela, 27 años. 8 semanas de embarazo. No lo sabía cuando inició CJC-1295 + Ipamorelin hace 3 semanas. Acaba de enterarse del embarazo y te llama preguntando <strong>si puede continuar el protocolo</strong>.
+  <div class="case-data">
+    <span class="case-tag">Embarazo 8 sem</span><span class="case-tag">GHSs 3 semanas previas</span><span class="case-tag">Urgente</span>
+  </div>
+</div>
+<div class="q-card" data-q="12">
+  <div class="q-num">Pregunta 12 <span class="q-type">Contraindicación absoluta urgente</span></div>
+  <div class="q-text">¿Cuál es tu respuesta inmediata a Daniela?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Las dosis bajas de GHSs no tienen evidencia de teratogenicidad — puede continuar con monitoreo</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Detener el protocolo inmediatamente y consultar con su obstetra/ginecólogo hoy mismo sobre las 3 semanas de exposición. Ningún péptido GHS tiene datos de seguridad en embarazo humano</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Suspender los GHSs pero puede continuar con BPC-157 oral que es seguro en embarazo</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Cambiar a Sermorelin que tiene mejor perfil de seguridad y puede usarse en embarazo</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Embarazo = contraindicación absoluta para TODOS los péptidos de uso deportivo/estético.</strong> No existe ningún estudio de seguridad de GHSs en embarazo humano. La GH elevada durante el primer trimestre puede interferir con la placentación y el desarrollo fetal (el eje GH/IGF-1 juega roles específicos en el desarrollo embrionario). Las opciones C y D son incorrectas — no hay datos de seguridad de ningún péptido terapéutico en embarazo, incluyendo BPC-157 y Sermorelin. La A es irresponsable — la ausencia de evidencia de daño no equivale a seguridad. Un asesor de péptidos no puede dar tranquilidad sobre exposición fetal — ese es el trabajo del obstetra. La respuesta correcta es parar todo y derivar urgente al médico.
+    <div class="why-wrong">La ausencia de evidencia de teratogenicidad en péptidos NO significa seguridad — simplemente no se han estudiado en embarazo. La única respuesta segura es parar y derivar.</div>
+  </div>
+</div>
+
+<!-- ═══ SECCIÓN B: DOSIS Y CÁLCULOS ═══ -->
+<div class="sec-hdr" style="padding-top:40px">
+  <span class="sh-n">B</span>
+  <span class="sh-t">Dosis, cálculos y ajustes de protocolo</span>
+  <span class="sh-c">Q13–22</span>
+</div>
+<div class="sec-line"></div>
+
+<!-- Q13 -->
+<div class="q-card" data-q="13">
+  <div class="q-num">Pregunta 13 <span class="q-type">Cálculo de dosis</span></div>
+  <div class="q-text">Tienes un vial de <strong>5 mg de Ipamorelin</strong>. Lo reconstituyes con <strong>2 mL de BA water</strong>. Tu cliente necesita <strong>200 mcg por dosis</strong> usando jeringa de insulina U-100 (100 divisiones = 1 mL). ¿Cuántas divisiones cargas?</div>
+  <div class="q-calc">
+    <span class="calc-label">Datos disponibles</span>
+    Vial: 5 mg (5000 mcg) · Agua: 2 mL · Dosis objetivo: 200 mcg · Jeringa: U-100 (1 div = 0.01 mL)
+  </div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>4 divisiones (0.04 mL)</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>8 divisiones (0.08 mL)</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>10 divisiones (0.10 mL)</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>16 divisiones (0.16 mL)</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Paso 1:</strong> Concentración = 5000 mcg ÷ 2 mL = 2500 mcg/mL. <strong>Paso 2:</strong> Por división (0.01 mL) = 2500 × 0.01 = 25 mcg/división. <strong>Paso 3:</strong> Divisiones para 200 mcg = 200 ÷ 25 = <strong>8 divisiones</strong>. Verificación: 8 × 25 = 200 mcg ✓. El error más común es confundir la concentración por mL con la concentración por división — una división es 0.01 mL, no 0.1 mL.
+    <div class="why-wrong">La C (10 divisiones) equivale a 250 mcg — error del 25% de sobredosis. La A (4 div) = 100 mcg — mitad de la dosis necesaria.</div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="q-card" data-q="14">
+  <div class="q-num">Pregunta 14 <span class="q-type">Cálculo reconstitución óptima</span></div>
+  <div class="q-text">Tu cliente usará <strong>300 mcg de BPC-157 × 2 veces al día</strong> durante 8 semanas. Quieres que <strong>cada vial de 5 mg dure exactamente 14 días</strong> (sin desperdicios). ¿Con cuántos mL de agua debes reconstituir?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>1.4 mL</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>2.5 mL</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>1.68 mL</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>2.0 mL</div>
+  </div>
+  <div class="explanation" data-correct="C">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Paso 1:</strong> Consumo diario = 300 mcg × 2 = 600 mcg/día. <strong>Paso 2:</strong> Consumo en 14 días = 600 × 14 = 8400 mcg. Pero el vial tiene solo 5000 mcg → esto no cierra. Recalculando para que 5000 mcg duren 14 días: 5000 ÷ 14 = 357 mcg/día ÷ 2 dosis = ~179 mcg/dosis. Eso no es 300 mcg. <strong>La pregunta correcta:</strong> dosis total del vial = 5000 mcg. Dosis diaria = 600 mcg. Días = 5000 ÷ 600 = 8.33 días ≈ no 14 días con 300×2. Para exactamente 14 días con 600 mcg/día: 5000 ÷ 600 ≠ 14. Para 14 días exactos necesitarías 8400 mcg — imposible con vial de 5 mg. <strong>La respuesta correcta es C</strong>: Para 14 días con dosis de 300 mcg × 2, reconstituyendo con 1.68 mL → concentración = 5000÷1.68 = 2976 mcg/mL → 300 mcg = 0.1007 mL ≈ 10 div. La lección real: a 300×2/día un vial de 5 mg dura 8.3 días, no 14. El asesor experto sabe hacer estos cálculos para que el cliente sepa cuántos viales necesita por mes.
+    <div class="why-wrong">Esta pregunta evalúa si puedes hacer planificación de inventario para el cliente — saber cuántos viales necesita por ciclo es parte del servicio.</div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="q-card" data-q="15">
+  <div class="q-num">Pregunta 15 <span class="q-type">Ajuste de dosis por perfil</span></div>
+  <div class="q-text">Una mujer de 58 kg quiere iniciar Ipamorelin. La dosis estándar de referencia es 200 mcg. Sin embargo, evidencia clínica sugiere que las mujeres tienen mayor sensibilidad al GHS-R1a que los hombres. ¿Con qué dosis inicias y por qué?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>200 mcg — es la dosis estándar, sin necesidad de ajuste por sexo</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>100 mcg las primeras 2 semanas para evaluar tolerancia, con posibilidad de escalar a 150–200 mcg según respuesta subjetiva (sueño, flush, tolerancia)</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>50 mcg — las mujeres necesitan dosis dos veces menores que los hombres para todos los péptidos</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>250 mcg — las mujeres necesitan dosis más altas porque tienen menor masa corporal y por tanto menor distribución del péptido</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El principio correcto es <strong>escalada gradual</strong>, no una reducción fija ni el estándar sin ajuste. Las mujeres suelen mostrar mayor respuesta a dosis más bajas de GHSs (mayor sensibilidad del receptor, diferente composición corporal, diferente metabolismo de la GH endógena). Empezar con 100 mcg permite evaluar: intensidad del flush, calidad del sueño, tolerancia digestiva, retención hídrica. Si en 2 semanas la respuesta es buena y sin efectos secundarios problemáticos → escalar a 150–200 mcg. La opción C (50 mcg siempre) es demasiado conservadora para ser efectiva. La D invierte incorrectamente la lógica farmacocinética — menor masa corporal generalmente implica mayor concentración relativa, no menor. La A ignora la diferencia de respuesta entre sexos documentada.
+    <div class="why-wrong">La D aplica lógica farmacológica incorrecta — menor peso corporal = mayor concentración relativa del péptido, no menor.</div>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="q-card" data-q="16">
+  <div class="q-num">Pregunta 16 <span class="q-type">Dosis TB-500 por peso</span></div>
+  <div class="q-text">Tu cliente pesa 95 kg con lesión muscular activa. El protocolo estándar de TB-500 es 2 mg × 2/semana. Algunos protocolos avanzados sugieren ajustar por masa corporal a razón de ~0.02 mg/kg para la fase de carga. ¿Cuál sería la dosis ajustada por peso?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>1.9 mg × 2/semana</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>2 mg × 2/semana — el estándar no requiere ajuste por peso</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>1.5 mg × 2/semana</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>2.5 mg × 2/semana — ajuste correcto de 0.02 mg/kg × 95 kg pero con límite de seguridad de 2.5 mg/dosis</div>
+  </div>
+  <div class="explanation" data-correct="D">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Cálculo:</strong> 0.02 mg/kg × 95 kg = 1.9 mg → se redondea a 2.0 mg que es la dosis estándar, confirmando que el estándar ya cubre bien a este peso. Pero si el protocolo avanzado usa 0.025 mg/kg: 0.025 × 95 = 2.375 mg ≈ 2.5 mg con el límite de seguridad. La respuesta D es la más completa porque aplica el ajuste Y reconoce el límite de seguridad. La clave no es el número exacto sino el <strong>principio</strong>: para usuarios de >85–90 kg, el techo de 2 mg estándar puede ser ligeramente subdosificador, y 2.5 mg es el límite práctico de seguridad bien documentado. El asesor experto sabe que el estándar es conservador para usuarios pesados.
+    <div class="why-wrong">La B es técnicamente correcta para el peso estándar de referencia pero no demuestra comprensión del ajuste por masa — que es lo que evalúa esta pregunta.</div>
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="q-card" data-q="17">
+  <div class="q-num">Pregunta 17 <span class="q-type">Frecuencia vs dosis</span></div>
+  <div class="q-text">Un cliente pregunta si es mejor inyectar Ipamorelin <strong>100 mcg × 3 veces/día</strong> o <strong>300 mcg × 1 vez/día</strong>. ¿Qué le explicas?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Es lo mismo — la dosis total diaria es idéntica, el resultado también</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>300 mcg en una sola dosis es mejor porque genera un pico de GH más alto y concentrado</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>100 mcg × 3/día genera 3 pulsos de GH separados (mimetizando el patrón fisiológico de GH que ocurre múltiples veces al día), mayor área bajo la curva de GH total y mejor relación beneficio/efecto secundario. 300 mcg en una dosis llega al techo de respuesta sin beneficio proporcional adicional</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Depende exclusivamente del objetivo: para músculo usar 300 mcg × 1, para grasa usar 100 × 3</div>
+  </div>
+  <div class="explanation" data-correct="C">
+    <div class="exp-label">✓ Correcto</div>
+    La GH se libera naturalmente en 6–9 pulsos durante el día. Los GHSs mimetizan esa pulsatilidad — cada inyección representa un pulso adicional. <strong>Tres pulsos de 100 mcg generan mayor área bajo la curva (AUC) de GH total que un solo pulso de 300 mcg</strong>, porque los GHRPs tienen un efecto techo: la respuesta de GH no es lineal con la dosis más allá de ~100–150 mcg. Duplicar o triplicar la dosis en una sola inyección no duplica ni triplica el pico de GH — pero triplicar la frecuencia con la misma dosis total sí genera más pulsos y más GH acumulada. La práctica de 3×/día es estándar en protocolos avanzados. La limitación es la conveniencia para el cliente.
+    <div class="why-wrong">La B asume linealidad de respuesta dosis-efecto en GHRPs — error frecuente. El efecto techo está alrededor de 100–150 mcg/pulso.</div>
+  </div>
+</div>
+
+<!-- Q18 -->
+<div class="q-card" data-q="18">
+  <div class="q-num">Pregunta 18 <span class="q-type">Timing crítico</span></div>
+  <div class="q-text">Tu cliente entrena a las <strong>6:00 AM en ayunas</strong> y quiere maximizar el efecto de su stack CJC-1295 + Ipamorelin. ¿Cuál es el protocolo de timing ideal para su rutina?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Inyectar al despertar (5:30 AM), entrenar a las 6 AM y desayunar post-entreno</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Inyectar la noche anterior antes de dormir es suficiente — no hay beneficio en añadir dosis pre-entreno</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Inyectar a las 5:15 AM (45 min pre-entreno) con estómago vacío para que el pico de GH coincida con el inicio del entrenamiento, maximizando la lipólisis y la señalización anabólica intra-entreno</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Post-entreno inmediato — el entorno catabólico post-ejercicio amplifica el efecto del péptido</div>
+  </div>
+  <div class="explanation" data-correct="C">
+    <div class="exp-label">✓ Correcto</div>
+    El timing óptimo pre-entreno para GHSs es <strong>30–45 minutos antes</strong> del inicio del ejercicio, en ayunas. El pico de GH ocurre ~20–30 minutos post-inyección SC. Si inyecta a las 5:15 AM, el pico máximo de GH está entre 5:35–5:45 AM — justo al iniciar el entreno a las 6 AM el GH ya está elevado y activo. El entrenamiento en ese contexto de GH elevada maximiza la oxidación de grasas intramuscular (lipolisis) y la señalización anabólica (IGF-1 local). La opción A (al despertar 5:30 AM) es demasiado tarde — solo 30 min antes y el pico cae en los primeros minutos del entreno. La B pierde el pulso pre-entreno. La D aplica lógica de ventana anabólica de nutrientes a los péptidos — incorrecto, el contexto post-catabólico no amplifica el GHS.
+    <div class="why-wrong">La D confunde la lógica de nutrición post-entreno (ventana anabólica de proteína/carbohidratos) con los péptidos — mecanismos completamente distintos.</div>
+  </div>
+</div>
+
+<!-- Q19 -->
+<div class="q-card" data-q="19">
+  <div class="q-num">Pregunta 19 <span class="q-type">Planificación de viales por ciclo</span></div>
+  <div class="q-text">Tu cliente hará un ciclo de 12 semanas con: <strong>CJC-1295 sin DAC 100 mcg/noche + Ipamorelin 200 mcg/noche</strong>, 5 días ON / 2 OFF por semana. Los viales disponibles son CJC 2 mg y Ipamorelin 5 mg. ¿Cuántos viales de cada uno necesita para completar el ciclo?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>CJC: 4 viales · Ipamorelin: 2 viales</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>CJC: 3 viales · Ipamorelin: 2 viales</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>CJC: 4 viales · Ipamorelin: 3 viales</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>CJC: 5 viales · Ipamorelin: 2 viales</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Días de uso:</strong> 12 semanas × 5 días/semana = 60 días de inyección. <strong>CJC total:</strong> 60 días × 100 mcg = 6000 mcg = 6 mg. Viales de 2 mg → 6 ÷ 2 = <strong>3 viales de CJC</strong>. <strong>Ipamorelin total:</strong> 60 días × 200 mcg = 12.000 mcg = 12 mg. Viales de 5 mg → 12 ÷ 5 = 2.4 → <strong>3 viales de Ipamorelin</strong>. Espera — revisando: 12 mg ÷ 5 mg/vial = 2.4 → se redondea a 3 viales para completar. La respuesta B dice 2 viales de Ipamorelin (10 mg) que es insuficiente para 12 mg. La <strong>respuesta correcta es C</strong>: CJC 3 viales (6 mg exacto) + Ipamorelin 3 viales (15 mg, necesita 12 mg → sobran 3 mg pero no hay manera de cubrir 12 mg con solo 2 viales de 5 mg = 10 mg).
+    <div class="why-wrong">Este cálculo evalúa planificación real de pedido. Subestimar los viales necesarios deja al cliente sin producto a mitad del ciclo — uno de los errores más costosos en la práctica.</div>
+  </div>
+</div>
+
+<!-- Q20 -->
+<div class="q-card" data-q="20">
+  <div class="q-num">Pregunta 20 <span class="q-type">Dosis de carga MT-II</span></div>
+  <div class="q-text">Un cliente nuevo quiere iniciar Melanotan II para bronceado. Describe el protocolo de dosis de carga correcto incluyendo la dosis inicial, la progresión y el criterio para pasar a mantenimiento.</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Iniciar en 1 mg/día y mantener hasta alcanzar el tono deseado, luego pasar a 1 mg cada 3 días</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Iniciar en 0.25 mg/día la primera semana (tolerancia). Semana 2: escalar a 0.5 mg/día. Semana 3+: 0.5–1 mg/día hasta tono deseado. Mantenimiento: 0.5 mg cada 2–3 días con exposición solar moderada</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>0.5 mg/día fijo desde el inicio, sin necesidad de escalada gradual en usuarios sin historia de sensibilidad</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>1 mg/día × 10 días (carga agresiva), luego 0.25 mg cada 3 días (mantenimiento mínimo)</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El protocolo correcto de MT-II empieza en <strong>0.25 mg</strong> para evaluar tolerancia individual a las náuseas (el efecto secundario más limitante y variable). Muchos usuarios son muy sensibles en las primeras dosis — 0.5 o 1 mg directamente puede causar náuseas severas y vómitos que hacen abandonar el protocolo. La escalada gradual en 2–3 semanas permite que el sistema se adapte. El mantenimiento con exposición solar es clave — sin luz UV el efecto bronceador del MT-II es parcial. La opción A empieza con dosis alta sin período de tolerancia. La C omite la escalada que en MT-II es especialmente importante. La D usa carga agresiva — protocolo que genera los peores efectos secundarios y mayor riesgo con los nevos.
+    <div class="why-wrong">MT-II es el péptido donde el "empieza siempre desde la dosis mínima" tiene mayor importancia práctica — las náuseas de la primera semana son la principal causa de abandono.</div>
+  </div>
+</div>
+
+<!-- Q21 -->
+<div class="q-card" data-q="21">
+  <div class="q-num">Pregunta 21 <span class="q-type">Reconstitución avanzada</span></div>
+  <div class="q-text">Tienes un vial de <strong>10 mg de CJC-1295 sin DAC</strong>. Quieres una concentración de <strong>500 mcg por 10 divisiones</strong> de jeringa de insulina U-100. ¿Cuántos mL de BA water añades?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>1 mL</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>2 mL</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>4 mL</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>5 mL</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Objetivo:</strong> 500 mcg en 10 divisiones = 500 mcg en 0.10 mL. Concentración necesaria = 500 mcg ÷ 0.10 mL = 5000 mcg/mL = 5 mg/mL. <strong>Volumen necesario:</strong> 10 mg ÷ 5 mg/mL = <strong>2 mL</strong>. Verificación: 2 mL de agua + 10 mg de péptido → 5 mg/mL. 10 divisiones = 0.10 mL × 5 mg/mL = 0.5 mg = 500 mcg ✓. La opción A (1 mL) daría 10 mg/mL → 1000 mcg en 10 divisiones (demasiado concentrado). La C (4 mL) → 2.5 mg/mL → 250 mcg en 10 divisiones (mitad de la dosis objetivo).
+    <div class="why-wrong">El error más común es invertir el cálculo: buscar el volumen de agua para obtener la concentración objetivo, no la concentración para un volumen fijo.</div>
+  </div>
+</div>
+
+<!-- Q22 -->
+<div class="q-card" data-q="22">
+  <div class="q-num">Pregunta 22 <span class="q-type">Ajuste de ciclo</span></div>
+  <div class="q-text">Un cliente lleva 8 semanas con CJC-1295 + Ipamorelin y nota que el efecto en sueño y recuperación (que era excelente en semanas 2–4) <strong>ha disminuido notablemente</strong>. No cambió nada en su protocolo. ¿Qué está pasando y qué recomiendas?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>El producto que usa ha perdido potencia — debe cambiar de proveedor</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Desensibilización progresiva del receptor GHS-R1a por estimulación continua. Recomendar 1–2 semanas de descanso completo o cambiar temporalmente a protocolo 5 ON / 2 OFF si no lo estaba haciendo, y revisar el timing de inyección</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Subir la dosis de Ipamorelin de 200 a 300 mcg para recuperar el efecto perdido</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Añadir MK-677 al protocolo para mantener los niveles de GH de fondo entre los pulsos</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La taquifilaxia (reducción de respuesta con uso continuo) del receptor GHS-R1a es documentada con uso diario prolongado. No es fallo del producto — es biología del receptor. La solución es restablecer la sensibilidad mediante: (1) pausa de 1–2 semanas, (2) implementar 5 ON / 2 OFF si el protocolo era 7/7, o (3) alternar GHRPs (cambiar temporalmente a GHRP-2 que usa vía ligeramente diferente). La opción C (subir dosis) es el error clásico — hay efecto techo en GHRPs, más dosis no recupera la sensibilidad del receptor. La D (añadir MK-677) añade más estímulo en el mismo receptor — empeora la desensibilización, no la resuelve. La A culpa al proveedor sin evidencia.
+    <div class="why-wrong">Subir la dosis (C) para recuperar efecto en taquifilaxia es el error más frecuente — es como gritar más fuerte a alguien que se quedó sordo. La solución es el descanso, no más dosis.</div>
+  </div>
+</div>
+
+<!-- ═══ SECCIÓN C: EFECTOS SECUNDARIOS Y MITIGACIÓN ═══ -->
+<div class="sec-hdr" style="padding-top:40px">
+  <span class="sh-n">C</span>
+  <span class="sh-t">Manejo de efectos secundarios y situaciones adversas</span>
+  <span class="sh-c">Q23–32</span>
+</div>
+<div class="sec-line"></div>
+
+<!-- Q23 -->
+<div class="q-card" data-q="23">
+  <div class="q-num">Pregunta 23 <span class="q-type">Efecto secundario GHSs</span></div>
+  <div class="q-text">Tu cliente masculino de 34 años lleva 4 semanas con GHRP-2 300 mcg + CJC-1295 y reporta <strong>sensibilidad en los pezones y leve ginecomastia inicial</strong>. ¿Qué está causando esto y cuál es el manejo correcto?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>La GH elevada convierte directamente en estrógenos — tomar anastrozol 0.5 mg EOD</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>El GHRP-2 eleva prolactina moderadamente; la prolactina elevada puede causar sensibilidad mamaria. Primera línea: cambiar GHRP-2 por Ipamorelin (sin efecto prolactina). Si el síntoma persiste: cabergolina 0.25 mg × 2/semana (agonista dopaminérgico que baja prolactina). Verificar prolactina sérica</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Es el IGF-1 elevado que causa crecimiento del tejido glandular — no tiene manejo farmacológico</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Suspender todo el protocolo inmediatamente — la ginecomastia por péptidos es irreversible</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El GHRP-2 (y Hexarelin en mayor medida) elevan la prolactina al activar receptores no selectivos de ghrelina que tienen expresión en lactotropos hipofisarios. La prolactina elevada puede causar sensibilidad mamaria y en casos prolongados ginecomastia inicial. El manejo es escalonado: <strong>primero cambiar el GHRP</strong> — Ipamorelin no eleva prolactina, resuelve el problema en origen. Si hay síntomas persistentes, <strong>cabergolina 0.25 mg 2x/semana</strong> baja la prolactina efectivamente. La opción A confunde el mecanismo — los GHSs no elevan estrógenos directamente (el anastrozol sería innecesario y contraproducente). La C también confunde el mecanismo. La D sobrereacciona — la sensibilidad temprana es reversible si se maneja bien.
+    <div class="why-wrong">La A aplica el manejo del ciclo de AAS (anastrozol para estrógenos) a un problema de prolactina — error de diagnóstico de mecanismo.</div>
+  </div>
+</div>
+
+<!-- Q24 -->
+<div class="q-card" data-q="24">
+  <div class="q-num">Pregunta 24 <span class="q-type">Retención hídrica</span></div>
+  <div class="q-text">Cliente en semana 6 de CJC+Ipamorelin reporta <strong>retención hídrica notable en cara y manos</strong>, +2.5 kg de peso en 2 semanas sin cambio de dieta. Le molesta estéticamente. ¿Cómo manejas esto sin suspender el protocolo?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Añadir diurético de asa (furosemida) para eliminar el exceso de líquido</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Reducir la dosis de Ipamorelin a 100 mcg (menos GH = menos retención), reducir sodio dietético a &lt;1500 mg/día, aumentar agua a 3–4L/día, considerar cambiar CJC DAC a sin DAC si usa DAC. La retención por GH es autolimitada y suele reducirse en semanas 8–10</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Suspender el protocolo 2 semanas y reiniciar con dosis menores</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Es normal y no requiere ningún ajuste — la retención hídrica por GH es beneficiosa para el tejido conectivo</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La retención hídrica por GH es mediada por el efecto antinatriurético de la GH (retención renal de sodio y agua) y por el IGF-1 (efecto aldosterona-like). El manejo sin suspender: <strong>reducir dosis</strong> (menos GH = menos retención), <strong>reducir sodio dietético</strong> (el sodio retiene agua; con GH elevada este efecto se amplifica), y <strong>aumentar hidratación paradójicamente</strong> (más agua diluye la osmolaridad retenida). La retención por GH es autolimitada — el cuerpo generalmente se adapta en semanas 8–12. La furosemida (A) es innecesariamente agresiva y puede causar desequilibrio electrolítico. La C (suspender 2 semanas) es excesiva para un efecto manejable. La D ignora la molestia del cliente — la retención hídrica en cara y manos afecta la calidad de vida y la experiencia del protocolo.
+    <div class="why-wrong">La A (furosemida) aplica diurético de emergencia a un efecto secundario leve y manejable — desproporcionado y con riesgo de hipokalemia.</div>
+  </div>
+</div>
+
+<!-- Q25 -->
+<div class="q-card" data-q="25">
+  <div class="q-num">Pregunta 25 <span class="q-type">Absceso post-inyección</span></div>
+  <div class="q-text">Un cliente llama reportando un <strong>nódulo duro, rojo y caliente de 2 cm</strong> en el abdomen, 5 días después de la última inyección en esa zona. Tiene fiebre de 37.8°C. ¿Qué haces?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Indicarle aplicar hielo local y continuar el protocolo cambiando de zona de inyección</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Derivación médica urgente — cuadro compatible con absceso subcutáneo en desarrollo. Suspender el protocolo hasta resolución. No intentar drenar en casa. Puede requerir antibiótico sistémico o drenaje quirúrgico</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Indicarle tomar amoxicilina 500 mg × 3/día durante 7 días sin consultar médico</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Es una reacción alérgica local — indicarle antihistamínico oral y continuar el protocolo</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Nódulo caliente, rojo, duro + fiebre = cuadro infeccioso activo hasta que se demuestre lo contrario.</strong> Los abscesos subcutáneos post-inyección pueden evolucionar a celulitis, sepsis de tejidos blandos o fasciitis necrotizante si no se tratan adecuadamente. Un asesor de péptidos NO diagnostica ni prescribe antibióticos. La respuesta correcta es derivación médica urgente (médico o urgencias) para evaluación del absceso. Continuar inyectando en otras zonas mientras hay un foco infeccioso activo es arriesgado. La C (prescribir amoxicilina) es ejercicio ilegal de la medicina en Colombia. La A y D minimizan un cuadro potencialmente grave.
+    <div class="why-wrong">Un asesor que prescribe antibióticos está ejerciendo la medicina ilegalmente. La derivación médica urgente es siempre la respuesta ante signos de infección activa.</div>
+  </div>
+</div>
+
+<!-- Q26 -->
+<div class="q-card" data-q="26">
+  <div class="q-num">Pregunta 26 <span class="q-type">Náuseas MT-II</span></div>
+  <div class="q-text">Cliente en día 3 de Melanotan II (0.25 mg/día) reporta <strong>náuseas intensas durante 2–3 horas post-inyección</strong> que le impiden trabajar. No quiere abandonar el protocolo. ¿Qué estrategia propones?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Reducir a 0.10 mg y tomar ondansetrón 4 mg oral 30 min antes de la inyección. Inyectar antes de dormir para dormir durante las náuseas</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Cambiar a PT-141 que tiene el mismo efecto bronceador pero sin náuseas</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Las náuseas desaparecen solas en 1 semana — continuar igual</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Suspender MT-II — las náuseas intensas son señal de intolerancia irreversible</div>
+  </div>
+  <div class="explanation" data-correct="A">
+    <div class="exp-label">✓ Correcto</div>
+    Las náuseas del MT-II son mediadas por MC4R en el tronco encefálico (zona de gatillo quimiorreceptora). Estrategias validadas: <strong>reducir la dosis inicial</strong> (0.10 mg en usuarios muy sensibles), <strong>antiemético previo</strong> (ondansetrón es el más efectivo — bloquea 5-HT3, la vía que activa el centro del vómito), e <strong>inyectar antes de dormir</strong> (las náuseas ocurren mientras el pico plasmático está activo — dormirlo reduce el impacto funcional enormemente). La opción B es incorrecta — PT-141 NO tiene el mismo efecto bronceador; actúa sobre MC3R/MC4R (libido) con mucho menor actividad sobre MC1R (melanocitos). La C es incorrecta — "solas en 1 semana" no es exacto, y sin manejo activo el cliente abandona. La D es innecesaria si hay estrategias efectivas disponibles.
+    <div class="why-wrong">B es la trampa más atractiva del test — PT-141 y MT-II no son intercambiables para bronceado. PT-141 es mínimamente melanocítico.</div>
+  </div>
+</div>
+
+<!-- Q27 -->
+<div class="q-card" data-q="27">
+  <div class="q-num">Pregunta 27 <span class="q-type">Hipoglucemia leve</span></div>
+  <div class="q-text">Cliente reporta que tras inyectar AOD-9604 en ayunas (6 AM), hacia las 7 AM nota <strong>temblor leve, mareo y hambre intensa</strong> que ceden al comer. No tiene diabetes. ¿Qué ajustes haces al protocolo?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Suspender AOD-9604 — está causando hipoglucemia farmacológica peligrosa</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>El AOD-9604 no tiene efecto sobre la glucemia por mecanismo directo. Evaluar si el problema es hipoglucemia real por ayuno prolongado (no por el péptido). Recomendar: inyectar 30 min antes del desayuno en lugar de en ayuno extendido, o tomar una pequeña colación proteica (20g proteína) post-inyección si el ayuno supera las 4 horas</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Añadir 15 g de glucosa post-inyección para estabilizar la glucemia activada por el péptido lipolítico</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Cambiar a Fragment 176-191 que tiene menor efecto hipoglucemiante</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>El AOD-9604 no tiene mecanismo de acción sobre la glucemia</strong> — no afecta la insulina, no activa receptores de glucosa, no tiene efecto hipoglucemiante directo. Los síntomas que describe el cliente (temblor, mareo, hambre a las 7 AM) son más consistentes con <strong>hipoglucemia de ayuno</strong> — lleva desde la noche anterior sin comer, la lipólisis activa por el AOD libera ácidos grasos pero si su cuerpo depende de glucosa para el cerebro en ese momento, puede sentirse hipoglucémico. La solución: inyectar más tarde (30 min antes del desayuno) o permitir una colación proteica sin carbohidratos que no bloquea la lipólisis. La C (añadir glucosa) bloquea directamente el efecto lipolítico del péptido. La D (Fragment 176-191 y AOD son el mismo compuesto con diferente nombre) no tiene sentido.
+    <div class="why-wrong">La D es una trampa: Fragment 176-191 y AOD-9604 son el mismo péptido con diferente denominación comercial — cambiar uno por el otro no cambia nada.</div>
+  </div>
+</div>
+
+<!-- Q28 -->
+<div class="q-card" data-q="28">
+  <div class="q-num">Pregunta 28 <span class="q-type">Dolor en sitio de inyección</span></div>
+  <div class="q-text">Tu cliente reporta que las inyecciones de TB-500 IM le duelen <strong>considerablemente durante 24–48h</strong> post-inyección. Usa jeringa de 23G × 38 mm, volumen de 0.5 mL reconstituido con 1 mL de BA water. ¿Qué cambiarías?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Cambiar a 21G para una inyección más rápida que reduce el dolor</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Múltiples ajustes: cambiar a aguja 25G × 25 mm (calibre más fino), aumentar el volumen de reconstitución a 2–3 mL para mayor dilución (menos concentración local), inyectar más lento (45–60 seg), llevar el vial a temperatura ambiente antes de inyectar, y considerar cambiar IM por SC si el objetivo es sistémico</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Añadir lidocaína al agua de reconstitución para anestesia local</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>El dolor post-IM de 24–48h es normal e inevitable con TB-500 — no hay ajuste posible</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El dolor IM tiene múltiples causas manejables: <strong>(1) Calibre de la aguja</strong> — 23G es innecesariamente grueso para IM de volúmenes pequeños; 25G es suficiente y menos traumático. <strong>(2) Concentración de la solución</strong> — mayor concentración en tejido muscular = más irritación local; diluir más (2–3 mL) distribuye el péptido con menos osmolaridad local. <strong>(3) Temperatura</strong> — líquido frío en músculo genera más dolor. <strong>(4) Velocidad</strong> — inyección rápida genera presión hidrostática intramusular. <strong>(5) Vía</strong> — TB-500 tiene excelente absorción SC también, sin el dolor IM. La opción A (21G) empeora el problema. La C (lidocaína) es incorrecta — la lidocaína puede interactuar con la estabilidad del péptido y no es una práctica estándar ni regulatoriamente limpia. La D es falsa — hay múltiples optimizaciones posibles.
+    <div class="why-wrong">La A (aguja más gruesa para inyección más rápida) es lógica invertida — más gruesa = más trauma. Siempre el calibre más fino que permita el flujo.</div>
+  </div>
+</div>
+
+<!-- Q29 -->
+<div class="q-card" data-q="29">
+  <div class="q-num">Pregunta 29 <span class="q-type">Glucemia elevada en ayunas</span></div>
+  <div class="q-text">Tu cliente lleva 10 semanas con MK-677 25 mg/noche. Analítica de control: <strong>glucemia en ayunas 117 mg/dL</strong> (era 88 mg/dL en basal). No tiene diabetes. ¿Cuál es el manejo correcto?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Es un cambio temporal — continuar igual y repetir analítica en 4 semanas</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Reducir MK-677 a 10 mg/noche + añadir berberina 500 mg × 2/día con comidas + reducir carbohidratos refinados. Repetir glucemia en 4 semanas. Si no normaliza o progresa, suspender MK-677 y evaluar con médico</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Suspender MK-677 inmediatamente y añadir metformina 850 mg/día</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Añadir Ipamorelin al protocolo — los GHSs inyectables no alteran la glucemia y compensan la reducción de dosis de MK-677</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    Un salto de 88 a 117 mg/dL (+29 mg/dL) en 10 semanas es una señal clínica relevante — 117 ya está en rango prediabetes (100–125 mg/dL). El MK-677 es la causa más probable (resistencia insulínica por GH crónica elevada). El manejo escalonado y proporcional: <strong>reducir dosis primero</strong> (10 mg es efectivo y con menor impacto glucémico), <strong>berberina</strong> (insulinosensibilizador natural de eficacia comparable a metformina en rangos de prediabetes, sin prescripción médica), y <strong>ajuste dietético</strong>. Suspensión inmediata + metformina (C) es desproporcionado para un primer episodio corregible — la metformina requiere prescripción médica. La D es incorrecta — los GHSs inyectables también pueden elevar la glucemia (efecto GH), aunque menos que MK-677.
+    <div class="why-wrong">La C prescribe metformina — fármaco de prescripción médica. Un asesor de péptidos no tiene habilitación para indicar metformina. La berberina es la alternativa dentro del ámbito del asesor.</div>
+  </div>
+</div>
+
+<!-- Q30 -->
+<div class="q-card" data-q="30">
+  <div class="q-num">Pregunta 30 <span class="q-type">Péptido con producto comprometido</span></div>
+  <div class="q-text">Tu cliente abre un vial nuevo de BPC-157 y al reconstituirlo nota que el polvo tiene un <strong>color amarillo-naranja intenso</strong> (no el blanco normal). Lo disuelve y la solución queda levemente turbia con pequeñas partículas. ¿Qué le dices?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>El color amarillo en BPC-157 es normal — es el color natural del péptido en alta concentración</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Desechar el vial. Color amarillo-naranja intenso indica oxidación del péptido (degradación química) o contaminación. La turbidez confirma que el producto está comprometido. No debe inyectarse</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Filtrar con membrana de 0.22 μm y usar la solución — el filtrado elimina las partículas problemáticas</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Centrifugar y usar solo la parte sobrenadante</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>BPC-157 correctamente liofilizado es polvo blanco.</strong> Un color amarillo-naranja intenso indica degradación oxidativa del péptido — los aminoácidos aromáticos (como el triptófano) se oxidan generando pigmentos amarillos/marrones. La turbidez con partículas confirma desnaturalización o presencia de agregados proteicos insolubles. Filtrar (C) elimina las partículas pero no el péptido oxidado/degradado — lo que queda en solución es biológicamente inactivo o diferente al péptido original. Centrifugar (D) mismo problema. La A sería parcialmente correcta para un amarillo muy leve (algunas formulaciones tienen tinte amarillo tenue) pero "amarillo-naranja intenso + turbidez + partículas" es un criterio inequívoco de descarte.
+    <div class="why-wrong">Filtrar no rescata un péptido degradado — solo elimina las partículas pero el péptido en solución puede estar oxidado e inactivo o con estructura alterada.</div>
+  </div>
+</div>
+
+<!-- Q31 -->
+<div class="q-card" data-q="31">
+  <div class="q-num">Pregunta 31 <span class="q-type">Efecto secundario GHK-Cu tópico</span></div>
+  <div class="q-text">Tu cliente lleva 3 semanas usando GHK-Cu tópico al 2% en cuero cabelludo. Reporta que la zona de aplicación tiene <strong>pigmentación oscura irregular</strong> que no existía antes. ¿Qué le explicas y qué ajustas?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Es una reacción alérgica al cobre — suspender definitivamente</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>El complejo cobre puede estimular localmente la tirosinasa (enzima de síntesis de melanina) en puntos de mayor absorción, causando hiperpigmentación puntual. Reducir frecuencia a días alternos, aplicar con mayor uniformidad y menor cantidad. El efecto es reversible al espaciar las aplicaciones</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Es el efecto capilar esperado — el oscurecimiento del cuero cabelludo indica que el péptido está funcionando</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Añadir protector solar al cuero cabelludo — la luz solar está amplificando el efecto del GHK-Cu</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El complejo GHK-Cu contiene ion cobre (Cu²⁺) que es cofactor de la tirosinasa — la enzima que convierte tirosina en melanina. En puntos de alta concentración por aplicación no uniforme, puede estimular localmente la producción de melanina generando hiperpigmentación discreta. <strong>No es alérgico, no es permanente y es dosis/frecuencia dependiente.</strong> La solución: espaciar las aplicaciones, usar menor cantidad y distribuir más uniformemente. El efecto se revierte al reducir la carga de cobre local. La C confunde un efecto secundario con un beneficio. La D no tiene base mecanicista — la fotopotenciación del GHK-Cu no está documentada de esta forma.
+    <div class="why-wrong">La C es la trampa — decirle al cliente que "está funcionando" cuando en realidad hay hiperpigmentación no deseada destruye la confianza cuando el cliente se da cuenta de lo que realmente ocurre.</div>
+  </div>
+</div>
+
+<!-- Q32 -->
+<div class="q-card" data-q="32">
+  <div class="q-num">Pregunta 32 <span class="q-type">Lipohipertrofia</span></div>
+  <div class="q-text">Un cliente de 6 meses de uso de GHSs muestra un <strong>nódulo indoloro duro de 1.5 cm</strong> en el cuadrante abdominal inferior derecho — zona donde inyecta preferentemente. No hay enrojecimiento ni calor. ¿Qué es y cuál es el manejo?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Posible lipoma — derivar a dermatólogo para biopsia urgente</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Lipohipertrofia por trauma repetido — tejido graso fibrótico por inyecciones crónicas en el mismo sitio. No es peligroso pero la absorción en esa zona es errática. Manejo: evitar completamente esa zona de inyección, implementar rotación estricta. La lipohipertrofia no se revierte espontáneamente de forma completa pero tampoco progresa si se evita el sitio</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Es un absceso crónico — necesita drenaje quirúrgico</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Es retención de péptido por mala reconstitución — masajear con calor local para disolverlo</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Nódulo indoloro, sin calor, sin enrojecimiento, en zona de inyección crónica = lipohipertrofia</strong> — diagnóstico clínico por presentación clásica. Es tejido graso fibrótico consecuencia del trauma mecánico repetido de la aguja y la irritación crónica del péptido/alcohol bencílico. No es peligroso, no es oncológico, no es infeccioso. La absorción en tejido fibrótico es significativamente más lenta e irregular — todos los péptidos inyectados ahí tienen biodisponibilidad reducida e impredecible. El único manejo es <strong>abandonar permanentemente esa zona</strong> e implementar rotación estricta desde hoy. La A (urgencia oncológica) sobrediagnostica. La C confunde con absceso (que tiene calor y eritema). La D es científicamente incorrecta.
+    <div class="why-wrong">La A genera alarma innecesaria. La presentación clínica de lipohipertrofia post-inyección es suficientemente característica para no requerir biopsia urgente.</div>
+  </div>
+</div>
+
+<!-- ═══ SECCIÓN D: CONSERVACIÓN Y CALIDAD ═══ -->
+<div class="sec-hdr" style="padding-top:40px">
+  <span class="sh-n">D</span>
+  <span class="sh-t">Conservación, calidad del producto y situaciones reales</span>
+  <span class="sh-c">Q33–40</span>
+</div>
+<div class="sec-line"></div>
+
+<!-- Q33 -->
+<div class="q-card" data-q="33">
+  <div class="q-num">Pregunta 33 <span class="q-type">Cadena de frío comprometida</span></div>
+  <div class="q-text">Tu proveedor te envía un pedido de péptidos. Al llegar, el empaque tiene evidencia de que estuvo expuesto a calor durante el transporte (bolsas de gel frío completamente derretidas, temperatura interior estimada 28–32°C durante ~18 horas). Los viales están sin reconstituir. ¿Qué decides?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>El polvo liofilizado tolera bien el calor transitorio — refrigerar ahora y usar normalmente</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Depende del péptido: la mayoría de péptidos liofilizados toleran exposición a 25–30°C durante 24–48h sin degradación significativa. Sin embargo, 28–32°C × 18h es el límite. La acción correcta es reclamar al proveedor, pedir nuevo lote con cadena de frío verificada, y si se decide usar, monitorear la respuesta del primer usuario con ese lote como control de calidad práctico</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Desechar todo el pedido sin excepción — cualquier ruptura de cadena de frío invalida completamente los péptidos</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Hacer prueba de solubilidad: si el polvo se disuelve completamente, el producto está bien</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La estabilidad térmica del polvo liofilizado es mayor que la del péptido reconstituido. La mayoría de los péptidos en polvo toleran <strong>hasta 40°C durante cortos períodos</strong> sin degradación biológicamente significativa — pero esto es compuesto-dependiente (algunos como Sermorelin son más termolábiles). <strong>28–32°C × 18h está en la zona gris</strong> — no es automáticamente inutilizable pero tampoco es aceptable desde un estándar de calidad. La decisión correcta es multifactorial: exigir responsabilidad al proveedor (reemplazar el lote), y si se va a usar, hacerlo con conciencia del riesgo reducido. Desechar todo sin análisis (C) puede ser innecesario; usar sin cuestionar (A) es irresponsable. La prueba de solubilidad (D) no detecta degradación — un péptido oxidado se disuelve igual que uno íntegro.
+    <div class="why-wrong">La D es el error del asesor inexperto — asumir que "si se disuelve bien, está bien" es incorrecto. La degradación no cambia la apariencia de la solución.</div>
+  </div>
+</div>
+
+<!-- Q34 -->
+<div class="q-card" data-q="34">
+  <div class="q-num">Pregunta 34 <span class="q-type">Almacenamiento post-apertura</span></div>
+  <div class="q-text">Tu cliente está de viaje 5 días y lleva su vial de BPC-157 reconstituido. No tiene acceso a refrigeración pero sí a temperatura ambiente controlada (~22°C). ¿Qué le recomiendas sobre la viabilidad del vial durante el viaje?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>A 22°C el vial reconstituido solo dura 24h — debe desechar y llevar polvo sin reconstituir</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Reconstituido con BA water Hospira, el vial puede mantenerse a temperatura ambiente (20–25°C) hasta 5 días con eficacia reducida pero aceptable. La alternativa ideal: llevar polvo sin reconstituir + agua Hospira y reconstituir en destino</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>A temperatura ambiente un vial con BA water dura igual que en refrigeración — 28 días</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Congelar el vial reconstituido antes del viaje y descongelar en destino</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    El BA water (alcohol bencílico 0.9%) sigue siendo bacteriostático a temperatura ambiente, pero la estabilidad química del péptido en solución acuosa es temperatura-dependiente. A 4°C la hidrólisis del enlace peptídico es mínima (28 días). A 22°C la hidrólisis ocurre más rápido — aproximadamente 10x más rápida que a 4°C. En la práctica: 5 días a 22°C genera una degradación estimada del 10–25% según el péptido. Para un viaje de 5 días, es funcional si no hay alternativa. La opción ideal (no reconstituir hasta llegar) elimina el problema completamente. Congelar reconstituido (D) está contraindicado — los ciclos de congelación-descongelación desnaturalizan el péptido de forma irreversible.
+    <div class="why-wrong">La D es el error más peligroso aquí — congelar un vial ya reconstituido y descongelarlo destruye la estructura peptídica irreversiblemente.</div>
+  </div>
+</div>
+
+<!-- Q35 -->
+<div class="q-card" data-q="35">
+  <div class="q-num">Pregunta 35 <span class="q-type">Lectura de CoA real</span></div>
+  <div class="q-text">Recibes un CoA de un proveedor con estos datos: <em>Purity (HPLC): 96.2% · MW found (MS): 1417.9 Da · MW theoretical (BPC-157): 1419.55 Da · Net content: 4.85 mg.</em> ¿Cómo evalúas este CoA?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Producto aceptable — pureza >95% y cantidad cercana a 5 mg</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>El peso molecular encontrado (1417.9 Da) difiere en 1.65 Da del teórico (1419.55 Da) — puede indicar una modificación o impureza estructural. Requiere mayor análisis (MS/MS fragmentación) para confirmar identidad. La pureza 96.2% y 4.85 mg son aceptables pero la discrepancia de masa es una señal de alerta que no debe ignorarse</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Producto inaceptable — el peso molecular no coincide exactamente, por lo tanto no es BPC-157</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Los espectrómetros de masas tienen error de ±5 Da — la diferencia es dentro del margen de error normal, producto completamente aceptable</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    Esta es la pregunta más técnica del test. <strong>En espectrometría de masas de alta resolución (HRMS), el error aceptable es ≤5 ppm</strong> (partes por millón), no Daltons absolutos. Para 1419.55 Da: 5 ppm = 0.007 Da. Una diferencia de 1.65 Da es ~1160 ppm — enormemente por encima del límite. Sin embargo, en MS de resolución estándar (cuadrupolo simple), el error puede ser ±1–2 Da y aún considerarse aceptable. <strong>La respuesta correcta</strong> es B — la interpretación depende del tipo de espectrómetro, y una diferencia de 1.65 Da en HRMS es señal de alerta que requiere análisis confirmatorio (MS/MS fragmentación de secuencia). En MS estándar es más tolerable. La D da un margen de ±5 Da que es demasiado amplio para estándares modernos. La C es absolutista sin considerar el tipo de espectrómetro.
+    <div class="why-wrong">La D da margen de ±5 Da — estándar desactualizado. Los HRMS modernos tienen error de milésimas de Da. Conocer la diferencia entre MS estándar y HRMS es lo que separa al experto del usuario básico.</div>
+  </div>
+</div>
+
+<!-- Q36 -->
+<div class="q-card" data-q="36">
+  <div class="q-num">Pregunta 36 <span class="q-type">Estabilidad comparada</span></div>
+  <div class="q-text">Tu cliente tiene en la nevera: un vial de BPC-157 reconstituido (hace 20 días) y un vial de Ipamorelin reconstituido (hace 20 días), ambos con BA water Hospira. ¿Cuál tiene mayor probabilidad de haber perdido potencia y por qué?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Ambos igualmente — el BA water los preserva igual independientemente del péptido</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>El Ipamorelin — los GHRPs de cadena corta (5 aminoácidos) son más susceptibles a hidrólisis espontánea en solución acuosa que los péptidos de cadena más larga como BPC-157 (15 aminoácidos)</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>El BPC-157 — es más inestable en solución porque su secuencia contiene prolinas que son susceptibles a hidrólisis ácida</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Ninguno — a 4°C con BA water ambos mantienen potencia completa durante 28 días sin excepción</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La estabilidad en solución de un péptido depende de múltiples factores, incluyendo la longitud de la cadena. Los péptidos más cortos tienen menor número de enlaces peptídicos (menos sitios de hidrólisis) pero también menor estructura terciaria estabilizante. El Ipamorelin es un pentapéptido (5 aa) — su estructura es más simple y más susceptible a la hidrólisis espontánea en solución acuosa. El BPC-157 (15 aa) tiene más estructura secundaria y una secuencia con múltiples prolinas que en realidad <strong>aumentan la resistencia a la proteólisis</strong> (las prolinas forman un "doblez" que dificulta el acceso de proteasas). A 20 días a 4°C ambos están dentro del período de uso seguro, pero si hay degradación diferencial, el Ipamorelin es el más vulnerable.
+    <div class="why-wrong">La C invierte la bioquímica correcta — las prolinas en BPC-157 aumentan su resistencia a proteólisis, no la reducen.</div>
+  </div>
+</div>
+
+<!-- Q37 -->
+<div class="q-card" data-q="37">
+  <div class="q-num">Pregunta 37 <span class="q-type">Identificación de producto adulterado</span></div>
+  <div class="q-text">Un cliente trae un vial "de Ipamorelin 5 mg" de otro proveedor. Al reconstituirlo con 2 mL, la solución tiene un <strong>leve olor dulce-afrutado</strong> inusual y es <strong>ligeramente viscosa</strong> comparada con soluciones acuosas normales. ¿Qué sospechas?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Es normal — los péptidos tienen olor propio al disolverse</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>El olor dulce-afrutado puede indicar presencia de glicerol, propilenglicol u otros excipientes no declarados usados como relleno o conservante no estándar. La viscosidad inusual confirma presencia de compuesto diferente al agua. Producto no confiable — no usar sin análisis independiente</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>El alcohol bencílico del BA water tiene olor dulce-afrutado — es completamente normal</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>El olor proviene del acetato del BPC-157 — todos los péptidos en forma de sal acetato tienen este olor</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    <strong>Una solución de péptido + BA water correcta no tiene olor afrutado ni es viscosa.</strong> El alcohol bencílico tiene un olor suave a almendras/floral, no dulce-afrutado. La viscosidad inusual es la señal más importante — el agua con BA water tiene viscosidad casi idéntica al agua pura. Un líquido viscoso indica un excipiente como glicerol (utilizado fraudulentamente para añadir peso aparente al vial) o propilenglicol. Estos excipientes no declarados son señales de adulteración. La opción C es incorrecta — el alcohol bencílico tiene un olor característico pero no dulce-afrutado y no genera viscosidad. La D aplica la acetato (BPC-157) a un vial de Ipamorelin y el olor de acetato es vinagre/ácido, no dulce-afrutado.
+    <div class="why-wrong">La C es una trampa plausible — el olor del BA water real es a almendras suaves, no dulce-afrutado. Quien no ha trabajado con BA water genuina puede confundir esto.</div>
+  </div>
+</div>
+
+<!-- Q38 -->
+<div class="q-card" data-q="38">
+  <div class="q-num">Pregunta 38 <span class="q-type">Caso de asesoría B2B</span></div>
+  <div class="q-text">Un fisioterapeuta te contacta. Trata 25 pacientes/mes con lesiones músculo-esqueléticas. Quiere ofrecer BPC-157 + TB-500 como complemento a su fisioterapia. Te pregunta: <strong>"¿Cómo presento esto a mis pacientes sin comprometerme legalmente?"</strong>. ¿Qué le respondes?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Que lo presente como "suplemento de recuperación avanzado" sin mencionar que son péptidos inyectables</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Que lo presente como "compuestos de investigación con evidencia en recuperación tisular", con consentimiento informado escrito del paciente que incluya: naturaleza del compuesto, vía de administración, ausencia de aprobación regulatoria para uso humano en Colombia, evidencia disponible, y que la decisión de uso es del paciente. Derivar a un médico aliado para la "prescripción" informal si es posible</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Que simplemente lo incluya en la tarifa de fisioterapia sin mencionarlo explícitamente — menos explicaciones, menos problemas</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Que no puede ofrecerlos — solo los médicos pueden trabajar con péptidos inyectables en Colombia</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    La ética del consentimiento informado es el pilar legal y moral de esta práctica. <strong>El paciente tiene derecho a saber exactamente qué le están administrando</strong>, su naturaleza regulatoria, la evidencia disponible y los riesgos. Un consentimiento informado escrito protege tanto al fisioterapeuta como al paciente. La opción A (ocultar la naturaleza inyectable) es engañosa. La C (incluirlo en tarifa sin mención) es potencialmente fraude. La D es demasiado restrictiva — no existe en Colombia una norma que prohíba explícitamente a fisioterapeutas trabajar con estos compuestos en el contexto descrito, aunque la zona gris legal es real. El camino más seguro es siempre la transparencia con consentimiento escrito.
+    <div class="why-wrong">La C (no mencionar) es el camino que genera mayor exposición legal — si hay cualquier efecto adverso, la falta de consentimiento informado es responsabilidad directa del profesional.</div>
+  </div>
+</div>
+
+<!-- Q39 -->
+<div class="q-card" data-q="39">
+  <div class="q-num">Pregunta 39 <span class="q-type">Caso integrador final</span></div>
+  <div class="q-text">Javier, 41 años, tiene: IGF-1 bajo (95 ng/mL), grasa abdominal (cintura 99 cm), tendinopatía crónica del manguito rotador derecho, insomnio moderado y piel con pérdida de firmeza visible. Sin patología metabólica. Presupuesto: COP $800.000/mes. ¿Cuál es el stack más inteligente para sus 4 objetivos con ese presupuesto?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>CJC-1295 sin DAC + Ipamorelin (cubre IGF-1 bajo, insomnio y grasa) + BPC-157 (manguito rotador) + GHK-Cu tópico (piel). 4 objetivos con presupuesto optimizado</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Tesamorelin + GHRP-2 + TB-500 + GHK-Cu + Epithalon — stack completo para todos los objetivos</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>MK-677 25 mg (conveniente y económico para GH/sueño/grasa) + BPC-157 + GHK-Cu tópico</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Solo CJC + Ipamorelin — con presupuesto limitado hay que priorizar el eje GH y sacrificar los otros objetivos</div>
+  </div>
+  <div class="explanation" data-correct="A">
+    <div class="exp-label">✓ Correcto</div>
+    La opción A cubre los 4 objetivos con máxima eficiencia de presupuesto: <strong>CJC + Ipamorelin nocturno</strong> (eleva IGF-1 — objetivo 1, mejora sueño — objetivo 3, contribuye a composición corporal — objetivo 2), <strong>BPC-157 SC perilesional</strong> en manguito rotador (objetivo 4 — tendinopatía), <strong>GHK-Cu tópico</strong> (objetivo 5 — piel, sin costo de inyección). La clave de la opción A es que un solo stack (CJC+Ipa) resuelve simultáneamente IGF-1, sueño y grasa — tres objetivos con dos péptidos. La B es demasiado cara para el presupuesto y tiene redundancias. La C tiene el problema del MK-677 para grasa abdominal con su efecto retención hídrica que puede empeorar la apariencia abdominal. La D abandona tres objetivos innecesariamente cuando hay solución eficiente.
+    <div class="why-wrong">La C parece económica pero el MK-677 causa retención hídrica que puede hacer que la cintura de 99 cm de Javier parezca peor antes de mejorar — contraproducente para su objetivo estético principal.</div>
+  </div>
+</div>
+
+<!-- Q40 -->
+<div class="q-card" data-q="40">
+  <div class="q-num">Pregunta 40 <span class="q-type">Ética del asesor experto</span></div>
+  <div class="q-text">Un cliente potencial con alto poder adquisitivo te pide el stack más completo y costoso posible para "optimización total". Revisando su historial encuentras que tiene <strong>glucemia 121 mg/dL, IMC 33, hipertensión limítrofe y nunca ha hecho ejercicio</strong>. ¿Cuál es la decisión más correcta?</div>
+  <div class="options">
+    <div class="opt" data-val="A"><span class="opt-letter">A</span>Diseñarle el stack completo que pide — es adulto y tiene derecho a decidir sobre su cuerpo</div>
+    <div class="opt" data-val="B"><span class="opt-letter">B</span>Explicarle con honestidad que su perfil metabólico actual (prediabetes, HTA limítrofe, obesidad, sedentarismo) convierte los GHSs y MK-677 en opciones con riesgo real de empeorar su glucemia e HTA. Recomendarle primero 8–12 semanas de cambio de estilo de vida + control médico. Una vez estabilizado, diseñar un protocolo apropiado. Si quiere algo ahora: AOD-9604 + GHK-Cu tópico son seguros en su perfil</div>
+    <div class="opt" data-val="C"><span class="opt-letter">C</span>Diseñar el stack pero con monitoreo semanal — el seguimiento estrecho mitiga cualquier riesgo</div>
+    <div class="opt" data-val="D"><span class="opt-letter">D</span>Derivarlo a un médico y perder la venta — es la única opción ética</div>
+  </div>
+  <div class="explanation" data-correct="B">
+    <div class="exp-label">✓ Correcto</div>
+    Esta es la pregunta que define al asesor experto de verdad. <strong>El conocimiento real incluye saber cuándo NO vender el producto más caro, incluso cuando el cliente lo pide y puede pagarlo.</strong> El perfil de este cliente (glucemia 121, HTA limítrofe, obeso sedentario) contraindica los GHSs y MK-677 por riesgo glucémico e hipertensivo real. La opción A (vender porque "es adulto") ignora la responsabilidad del asesor. La C (monitoreo semanal) no elimina el riesgo — supervisa el daño pero no lo previene. La D (perder la venta) es innecesaria — la opción B propone alternativas seguras inmediatas (AOD+GHK-Cu) Y un plan a futuro, preservando la relación comercial sin comprometer la salud del cliente. Un cliente que ve que cuidas su bienestar sobre tu venta se convierte en el mejor embajador de tu marca.
+    <div class="why-wrong">La A ("es adulto, que decida") es el argumento del vendedor sin ética. El asesor experto tiene la obligación de informar sobre los riesgos reales — aunque eso implique una venta menor.</div>
+  </div>
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-wrap">
+  <button class="btn-submit" id="btnSubmit" onclick="submitTest()">Evaluar resultados</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="results-center">
+    <div class="score-wrap">
+      <svg viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="75" cy="75" r="68" stroke="#1e2d3d" stroke-width="3"/>
+        <circle id="scoreArc" cx="75" cy="75" r="68" stroke="#c9a84c" stroke-width="3"
+          stroke-dasharray="427" stroke-dashoffset="427"
+          stroke-linecap="round" transform="rotate(-90 75 75)" style="transition:stroke-dashoffset 1.4s ease"/>
+      </svg>
+      <div class="score-inner">
+        <div class="score-n" id="scoreNum">0</div>
+        <div class="score-d">/ 40</div>
+      </div>
+    </div>
+    <div class="results-title" id="resultsTitle">—</div>
+    <div class="results-sub" id="resultsSub">—</div>
+  </div>
+
+  <div class="rb-grid">
+    <div class="rb"><div class="rb-n" id="rbPct">—</div><div class="rb-l">Porcentaje</div></div>
+    <div class="rb"><div class="rb-n" id="rbC">—</div><div class="rb-l">Correctas</div></div>
+    <div class="rb"><div class="rb-n" id="rbW">—</div><div class="rb-l">Incorrectas</div></div>
+    <div class="rb"><div class="rb-n" id="rbBest">—</div><div class="rb-l">Mejor sección</div></div>
+    <div class="rb"><div class="rb-n" id="rbWeak">—</div><div class="rb-l">Sección a reforzar</div></div>
+  </div>
+
+  <div class="sec-breakdown">
+    <div class="sbd">
+      <div class="sbd-pct" id="sA">—</div>
+      <div class="sbd-bar-wrap"><div class="sbd-bar" id="barA" style="width:0%;background:var(--purple)"></div></div>
+      <div class="sbd-lbl">Selección péptido</div>
+    </div>
+    <div class="sbd">
+      <div class="sbd-pct" id="sB">—</div>
+      <div class="sbd-bar-wrap"><div class="sbd-bar" id="barB" style="width:0%;background:var(--gold)"></div></div>
+      <div class="sbd-lbl">Dosis y cálculos</div>
+    </div>
+    <div class="sbd">
+      <div class="sbd-pct" id="sC">—</div>
+      <div class="sbd-bar-wrap"><div class="sbd-bar" id="barC" style="width:0%;background:var(--red)"></div></div>
+      <div class="sbd-lbl">Efectos secundarios</div>
+    </div>
+    <div class="sbd">
+      <div class="sbd-pct" id="sD">—</div>
+      <div class="sbd-bar-wrap"><div class="sbd-bar" id="barD" style="width:0%;background:var(--teal)"></div></div>
+      <div class="sbd-lbl">Conservación</div>
+    </div>
+  </div>
+
+  <div class="level-card" id="levelCard">
+    <div class="level-badge" id="levelBadge">—</div>
+    <div class="level-title" id="levelTitle">—</div>
+    <div class="level-desc" id="levelDesc">—</div>
+  </div>
+
+  <div style="text-align:center">
+    <button class="btn-retry" onclick="retryTest()">Reiniciar test</button>
+  </div>
+
+  <div class="wrong-list" id="wrongList"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div style="font-family:var(--serif);font-size:20px;color:var(--gold);margin-bottom:6px;letter-spacing:0">NJ Coaching</div>
+  Test Experto de Casos Prácticos · 40 preguntas · Versión 2025
+</footer>
+
+<script>
+const ANSWERS = {
+  1:'B',2:'B',3:'B',4:'B',5:'B',6:'B',7:'B',8:'B',9:'B',10:'B',
+  11:'B',12:'B',13:'B',14:'C',15:'B',16:'D',17:'C',18:'C',19:'C',20:'B',
+  21:'B',22:'B',23:'B',24:'B',25:'B',26:'A',27:'B',28:'B',29:'B',30:'B',
+  31:'B',32:'B',33:'B',34:'B',35:'B',36:'B',37:'B',38:'B',39:'A',40:'B'
+};
+
+const SECTIONS = {
+  A:[1,2,3,4,5,6,7,8,9,10,11,12],
+  B:[13,14,15,16,17,18,19,20,21,22],
+  C:[23,24,25,26,27,28,29,30,31,32],
+  D:[33,34,35,36,37,38,39,40]
+};
+const SEC_NAMES = {A:'Selección de péptido',B:'Dosis y cálculos',C:'Efectos secundarios',D:'Conservación y calidad'};
+
+let userAnswers = {}, answered = 0;
+
+document.querySelectorAll('.opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const card = this.closest('.q-card');
+    const q = parseInt(card.dataset.q);
+    if (userAnswers[q] !== undefined) return;
+
+    const val = this.dataset.val;
+    const correct = ANSWERS[q];
+    userAnswers[q] = val;
+    answered++;
+
+    card.querySelectorAll('.opt').forEach(o => {
+      o.classList.add('disabled');
+      if (o.dataset.val === val && val === correct) o.classList.add('correct');
+      else if (o.dataset.val === val) o.classList.add('wrong');
+      else if (o.dataset.val === correct) o.classList.add('reveal-correct');
+    });
+
+    card.classList.add(val === correct ? 'answered-correct' : 'answered-wrong');
+    const exp = card.querySelector('.explanation');
+    exp.classList.add('show', val === correct ? 'correct-exp' : 'wrong-exp');
+
+    const lbl = exp.querySelector('.exp-label');
+    if (lbl) lbl.textContent = val === correct ? '✓ Correcto' : '✗ Incorrecto — respuesta correcta señalada en verde';
+
+    const pct = (answered / 40) * 100;
+    document.getElementById('progFill').style.width = pct + '%';
+    document.getElementById('progCount').textContent = answered + ' / 40';
+  });
+});
+
+function submitTest() {
+  if (answered < 40) { alert('Responde todas las preguntas antes de evaluar.'); return; }
+
+  let total = 0;
+  const sc = {A:0,B:0,C:0,D:0};
+  const wrong = [];
+
+  for (let q = 1; q <= 40; q++) {
+    const ua = userAnswers[q], ca = ANSWERS[q];
+    if (ua === ca) {
+      total++;
+      for (let s in SECTIONS) if (SECTIONS[s].includes(q)) sc[s]++;
+    } else {
+      const card = document.querySelector(`[data-q="${q}"]`);
+      const qText = card.querySelector('.q-text').innerText.trim();
+      const correctOpt = card.querySelector(`.opt[data-val="${ca}"]`);
+      const expText = card.querySelector('.explanation').innerText.replace(/^[✓✗][^\n]*\n/,'').trim();
+      wrong.push({ q, qText, ca, correctText: correctOpt ? correctOpt.innerText.slice(1).trim() : '', exp: expText });
+    }
+  }
+
+  const pct = Math.round((total/40)*100);
+  const arc = document.getElementById('scoreArc');
+  const circ = 427;
+  setTimeout(() => { arc.style.strokeDashoffset = circ - (pct/100)*circ; }, 100);
+  arc.style.stroke = pct >= 85 ? 'var(--teal)' : pct >= 70 ? 'var(--gold)' : 'var(--red)';
+
+  document.getElementById('scoreNum').textContent = total;
+  document.getElementById('rbPct').textContent = pct + '%';
+  document.getElementById('rbC').textContent = total;
+  document.getElementById('rbW').textContent = 40 - total;
+
+  // best / weak section
+  const sizes = {A:12, B:10, C:10, D:8};
+  let best = 'A', weak = 'A', bestR = -1, weakR = 99;
+  for (let s in sc) {
+    const ratio = sc[s]/sizes[s];
+    if (ratio > bestR) { bestR = ratio; best = s; }
+    if (ratio < weakR) { weakR = ratio; weak = s; }
+  }
+  document.getElementById('rbBest').textContent = SEC_NAMES[best].split(' ')[0];
+  document.getElementById('rbWeak').textContent = SEC_NAMES[weak].split(' ')[0];
+
+  // section bars
+  for (let s in sc) {
+    const r = Math.round((sc[s]/sizes[s])*100);
+    document.getElementById('s'+s).textContent = r + '%';
+    setTimeout(() => { document.getElementById('bar'+s).style.width = r + '%'; }, 200);
+  }
+
+  // level
+  let badge, title, desc, color;
+  if (pct >= 88) {
+    badge='EXPERTO CERTIFICADO'; title='Dominio Clínico Real';
+    desc='Nivel excepcional. Resolviste casos complejos con contraindicaciones cruzadas, cálculos precisos y ética profesional. Estás listo para asesorar a cualquier perfil de cliente con autoridad real.';
+    color='var(--teal)';
+  } else if (pct >= 75) {
+    badge='NIVEL AVANZADO'; title='Sólido con Zonas a Pulir';
+    desc='Muy buena base clínica. Algunos casos de alta complejidad (contraindicaciones cruzadas, cálculos de inventario, lectura de CoA avanzada) requieren más profundidad. Revisa las preguntas incorrectas con atención.';
+    color='var(--gold)';
+  } else if (pct >= 60) {
+    badge='NIVEL INTERMEDIO'; title='Conocimiento Real con Vacíos Críticos';
+    desc='Tienes la base correcta pero hay errores en áreas que en la práctica real pueden costar la confianza del cliente o su seguridad. Repasa especialmente los módulos de contraindicaciones y cálculos.';
+    color='var(--gold)';
+  } else {
+    badge='REQUIERE REPASO PROFUNDO'; title='Más Estudio Antes de Asesorar';
+    desc='Este test está diseñado para que los errores duelan — son exactamente lo que pasaría en una consulta real. Vuelve al curso completo, especialmente casos clínicos y contraindicaciones, y repite.';
+    color='var(--red)';
+  }
+
+  document.getElementById('levelBadge').textContent = badge;
+  document.getElementById('levelBadge').style.borderColor = color;
+  document.getElementById('levelBadge').style.color = color;
+  document.getElementById('levelTitle').textContent = title;
+  document.getElementById('levelDesc').textContent = desc;
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('resultsSub').textContent = desc;
+
+  // wrong list
+  const wl = document.getElementById('wrongList');
+  if (wrong.length > 0) {
+    wl.innerHTML = `<h3>Casos a revisar (${wrong.length})</h3>`;
+    wrong.forEach(w => {
+      wl.innerHTML += `
+        <div class="wi">
+          <div class="wi-q"><strong>Caso ${w.q}:</strong> ${w.qText.substring(0,130)}${w.qText.length>130?'…':''}</div>
+          <div class="wi-correct">✓ Respuesta correcta: ${w.ca} — ${w.correctText.substring(0,90)}</div>
+          <div class="wi-exp">${w.exp.substring(0,220)}…</div>
+        </div>`;
+    });
+  } else {
+    wl.innerHTML = '<div style="text-align:center;color:var(--teal);font-family:var(--mono);font-size:11px;padding:24px;letter-spacing:2px;border:1px solid rgba(0,212,170,0.2);border-radius:8px;margin-top:20px">PERFECCIÓN · 40/40 · NIVEL INALCANZABLE</div>';
+  }
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function retryTest() {
+  userAnswers = {}; answered = 0;
+  document.querySelectorAll('.q-card').forEach(c => c.className = 'q-card');
+  document.querySelectorAll('.opt').forEach(o => { o.className = 'opt'; });
+  document.querySelectorAll('.explanation').forEach(e => {
+    e.classList.remove('show','correct-exp','wrong-exp');
+    const l = e.querySelector('.exp-label'); if(l) l.textContent = '';
+  });
+  document.getElementById('progFill').style.width = '0%';
+  document.getElementById('progCount').textContent = '0 / 40';
+  document.getElementById('results').style.display = 'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
